@@ -1,0 +1,64 @@
+.test-container {
+    margin: 5px auto;
+    padding: 40px 60px;
+    display: block;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.dropdown-filters {
+    padding: 15px 0;
+    display: flex;
+}
+
+.dropdown-filter {
+    width: 350px;
+}
+
+.checkboxes-container {
+    padding: 15px 0;
+    display: block;
+}
+
+.checkbox-div {
+    padding: 5px 0;
+}
+
+.question-container {
+    padding: 15px 0;
+    display: block;
+}
+
+.question-info {
+    display: flex;
+}
+
+.input-question-answer {
+    margin-left: 10px;
+    height: 30px;
+    width: 350px;
+}
+
+.btn-remove {
+    margin-left: 13px;
+    background: url(#{$imagesPath}/remove.png) no-repeat;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    border: none;
+}
+
+.answer-container {
+    padding: 15px 0 0 15px;
+    display: block;
+}
+
+.btn-add {
+    margin-top: 15px;
+    margin-left: 35px;
+    background: url(#{$imagesPath}/add.png) no-repeat;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    border: none;
+}
