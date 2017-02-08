@@ -149,6 +149,7 @@ angular.module('itest.portal.createnewtest.controllers')
                     ]
                 }
             ],
+            questionsNumber: 1,
             categoryId: 0,
             topicId: 0,
             private: false,
@@ -237,6 +238,10 @@ angular.module('itest.portal.createnewtest.controllers')
 
                 });
             }
+        };
+
+        $scope.convertNumberToLetter = function(number) {
+            return String.fromCharCode(97 + number);
         };
 
         loadCategories();

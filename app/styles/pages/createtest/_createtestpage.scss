@@ -40,25 +40,54 @@
 }
 
 .btn-remove {
+    margin-top: 4px;
     margin-left: 13px;
     background: url(#{$imagesPath}/remove.png) no-repeat;
-    width: 24px;
-    height: 24px;
+    width: 21px;
+    height: 21px;
     cursor: pointer;
     border: none;
 }
 
 .answer-container {
     padding: 15px 0 0 15px;
-    display: block;
+    display: flex;
 }
 
 .btn-add {
-    margin-top: 15px;
-    margin-left: 35px;
+    margin-top: 4px;
+    margin-left: 13px;
     background: url(#{$imagesPath}/add.png) no-repeat;
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
     cursor: pointer;
     border: none;
+}
+
+.add-question-container {
+    margin-top: 15px;
+    margin-left: 190px;
+}
+
+.btn-create-test {
+    padding: 12px 20px 12px 20px;
+    text-align: center;
+    font-family: $font-family-sans-pro;
+    color: white;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-size: 16px;
+    border: 2px solid transparent;
+    background-color: $status-color-green;
+}
+
+.btn-checkbox {
+    margin-left: 8px;
+    margin-top: 5px;
+    width: 20px;
+    height: 20px;
+}
+
+.text-near-checkbox {
+    margin-left: 7px;
 }
