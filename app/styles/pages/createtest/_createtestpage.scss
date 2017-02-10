@@ -1,6 +1,6 @@
 .test-container {
     margin: 5px auto;
-    padding: 40px 60px;
+    padding: 50px 200px;
     display: block;
     flex-direction: row;
     flex-wrap: wrap;
@@ -33,10 +33,16 @@
     display: flex;
 }
 
-.input-question-answer {
+.input-question {
     margin-left: 10px;
     height: 30px;
-    width: 350px;
+    width: 550px;
+}
+
+.input-answer {
+    margin-left: 10px;
+    height: 30px;
+    width: 470px;
 }
 
 .btn-remove {
@@ -70,6 +76,8 @@
 }
 
 .btn-create-test {
+    margin-top: 25px;
+    margin-left: 190px;
     padding: 12px 20px 12px 20px;
     text-align: center;
     font-family: $font-family-sans-pro;
@@ -90,4 +98,15 @@
 
 .text-near-checkbox {
     margin-left: 7px;
+}
+
+.error-border {
+    border: 2px solid red;
+    padding: 5px;
+}
+
+.error-message {
+    color: red;
+    margin-top: 15px;
+    margin-left: 25px;
 }

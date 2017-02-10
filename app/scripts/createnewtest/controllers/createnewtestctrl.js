@@ -119,14 +119,14 @@ angular.module('itest.portal.createnewtest.controllers')
         $scope.categoryOptions = {
             title: 'Категория:',
             items: [
-                {name: 'Все категории', value: '', selected: true}
+                {name: 'Все категории', value: 0, selected: true}
             ]
         };
 
         $scope.topicOptions = {
             title: 'Тема:',
             items: [
-                {name: 'Все темы', value: '', selected: true}
+                {name: 'Все темы', value: 0, selected: true}
             ]
         };
 
@@ -193,23 +193,41 @@ angular.module('itest.portal.createnewtest.controllers')
         };
 
         $scope.removeAnswer = function(questionNumber, answerNumber) {
+            var answers = [];
+            var index = 1;
             $.each($scope.test.questions, function(firstIndex, question){
-               if (question.questionNumber === questionNumber) {
-                   $.each(question.answers, function(secondIndex, answer) {
-                       if (answer.answerNumber === answerNumber) {
-                           question.answers.splice(secondIndex, 1);
-                       }
-                   })
-               }
+                if (question.questionNumber === questionNumber) {
+                    $.each(question.answers, function(secondIndex, answer) {
+                        if (answer.answerNumber !== answerNumber) {
+                            answers.push({
+                                answerNumber: index,
+                                answerText: answer.answerText,
+                                correct: answer.correct
+                            });
+                            index++;
+                        }
+                    });
+                    question.answers = answers;
+                }
             });
         };
 
         $scope.removeQuestion = function(questionNumber) {
-            $.each($scope.test.questions, function(index, question){
-                if (question.questionNumber === questionNumber) {
-                    $scope.test.questions.splice(index, 1);
+            var questions = [];
+            var index = 1;
+            $.each($scope.test.questions, function(firstIndex, question){
+                if (question.questionNumber !== questionNumber) {
+                    questions.push({
+                        questionNumber: index,
+                        questionText: question.questionText,
+                        answers: question.answers
+                    });
+                    index++;
                 }
             });
+
+            $scope.test.questions = questions;
+
             if ($scope.questionsCountOptions.items[$scope.questionsCountOptions.items.length - 1].selected) {
                 $scope.questionsCountOptions.items[$scope.questionsCountOptions.items.length - 2].selected = true;
             }

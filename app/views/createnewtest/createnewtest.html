@@ -2,17 +2,11 @@
     <div class="dropdown-filters">
         <div class="dropdown-filter">
             <dropdownfilter-menu ng-model="categoryOptions.items" default-title="categoryOptions.title" ng-change="test.categoryId = selectedItem.value"
-                                 type="categoryOptions.type" ontoggle="toggled(open)" class="filter-menu" scrollable="true"></dropdownfilter-menu>
-            <div ng-if="validationFailed && test.categoryId === 0">
-                <a>Выберите категорию теста</a>
-            </div>
+                                 type="categoryOptions.type" ontoggle="toggled(open)" class="filter-menu" scrollable="true" ng-class="{'error-border': validationFailed && test.categoryId === 0}"></dropdownfilter-menu>
         </div>
         <div class="dropdown-filter">
             <dropdownfilter-menu ng-model="topicOptions.items" default-title="topicOptions.title" ng-change="test.topicId = selectedItem.value"
-                                 type="topicOptions.type" ontoggle="toggled(open)" class="filter-menu" scrollable="true"></dropdownfilter-menu>
-            <div ng-if="validationFailed && test.topicId === 0">
-                <a>Выберите тему теста</a>
-            </div>
+                                 type="topicOptions.type" ontoggle="toggled(open)" class="filter-menu" scrollable="true" ng-class="{'error-border': validationFailed && test.topicId === 0}"></dropdownfilter-menu>
         </div>
     </div>
     <div class="checkboxes-container">
@@ -32,47 +26,41 @@
     <div ng-repeat="question in test.questions" class="question-container">
         <div class="question-info">
             <a>{{$index + 1}}.</a>
-            <input ng-model="question.questionText" type="text" class="input-question-answer" placeholder="Введите вопрос">
+            <input ng-model="question.questionText" type="text" class="input-question" placeholder="Введите вопрос" ng-class="{'error-border': validationFailed && question.questionText.trim() === ''}">
             <button ng-click="removeQuestion(question.questionNumber)" class="btn-remove"></button>
         </div>
-        <div ng-if="validationFailed && question.questionText.trim() === ''">
-            Введите текст вопроса
+        <div ng-if="validationFailed && calculateCorrectAnswers(question.questionNumber) === 0" class="error-message">
+            <a>Должен быть как минимум один правильный ответ</a>
         </div>
-        <div ng-if="validationFailed && calculateCorrectAnswers(question.questionNumber) === 0">
-            Выберите как минимум один правильный ответ
-        </div>
-        <div ng-if="validationFailed && calculateCorrectAnswers(question.questionNumber) === question.answers.length">
-            Оставьте как минимум один неправильный ответ
+        <div ng-if="validationFailed && calculateCorrectAnswers(question.questionNumber) === question.answers.length" class="error-message">
+            <a>Должен быть как минимум один неправильный ответ</a>
         </div>
         <div ng-repeat="answer in question.answers" class="answer-container">
             <a>{{convertNumberToLetter($index)}}</a>.
-            <input ng-model="answer.answerText" type="text" class="input-question-answer" placeholder="Введите ответ">
+            <input ng-model="answer.answerText" type="text" class="input-answer" placeholder="Введите ответ" ng-class="{'error-border': validationFailed && answer.answerText.trim() === ''}">
             <input type="checkbox" ng-model="answer.correct" class="btn-checkbox">
             <button ng-click="removeAnswer(question.questionNumber, answer.answerNumber)" class="btn-remove"></button>
-            <div ng-if="validationFailed && answer.answerText.trim() === ''">
-                Введите текст ответа
-            </div>
         </div>
         <div class="answer-container">
             <a>{{convertNumberToLetter(question.answers.length)}}.</a>
-            <input type="text" class="input-question-answer" placeholder="Введите ответ" ng-disabled="true">
+            <input type="text" class="input-answer" placeholder="Введите ответ" ng-disabled="true">
             <input type="checkbox" ng-model="answer.correct" ng-disabled="true" class="btn-checkbox">
             <button ng-click="addAnswer(question.questionNumber)" class="btn-add"></button>
         </div>
     </div>
     <div class="question-container">
         <div class="question-info">
-            <a>{{convertNumberToLetter(test.questions.length)}}.</a>
-            <input type="text" class="input-question-answer" placeholder="Введите вопрос" ng-disabled="true">
+            <a>{{test.questions.length + 1}}.</a>
+            <input type="text" class="input-question" placeholder="Введите вопрос" ng-disabled="true">
             <button ng-click="addQuestion()" class="btn-add"></button>
         </div>
         <div class="answer-container">
             <a>{{convertNumberToLetter(0)}}.</a>
-            <input type="text" class="input-question-answer" placeholder="Введите ответ" ng-disabled="true">
+            <input type="text" class="input-answer" placeholder="Введите ответ" ng-disabled="true">
         </div>
         <div class="answer-container">
             <a>{{convertNumberToLetter(1)}}.</a>
-            <input type="text" class="input-question-answer" placeholder="Введите ответ" ng-disabled="true">
+            <input type="text" class="input-answer" placeholder="Введите ответ" ng-disabled="true">
         </div>
     </div>
     <button ng-click="createTest()" class="btn-create-test">Создать тест</button>
