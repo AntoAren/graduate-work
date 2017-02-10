@@ -18,7 +18,8 @@ angular.module('itest.portal', [
         'itest.portal.assignedtome',
         'itest.portal.myresults',
         'itest.portal.createdbyme',
-        'itest.portal.createnewtest'
+        'itest.portal.createnewtest',
+        'itest.portal.edittest'
     ])
     .config(function (RestangularProvider, CONFIG) {
         RestangularProvider.setBaseUrl(CONFIG.restServicesEndpoint);

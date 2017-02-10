@@ -81,6 +81,14 @@ angular.module('itest.portal.data.services')
 
         createTest: function(test) {
             return restService.customPOST(test);
+        },
+
+        getTest: function(testId) {
+            return restService.one(testId).get();
+        },
+
+        editTest: function(testId, testParams) {
+            return restService.one(testId).put(testParams);
         }
     };
 });

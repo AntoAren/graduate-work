@@ -19,7 +19,7 @@
     </div>
     <div class="dropdown-filters">
         <div class="dropdown-filter">
-            <dropdownfilter-menu ng-model="questionsCountOptions.items" default-title="questionsCountOptions.title" ng-change="test.questionsNumber = selectedItem.value"
+            <dropdownfilter-menu ng-model="questionsCountOptions.items" default-title="questionsCountOptions.title" ng-change="test.questionNumber = selectedItem.value"
                                  type="questionsCountOptions.type" ontoggle="toggled(open)" class="filter-menu" scrollable="true"></dropdownfilter-menu>
         </div>
     </div>
@@ -63,5 +63,5 @@
             <input type="text" class="input-answer" placeholder="Введите ответ" ng-disabled="true">
         </div>
     </div>
-    <button ng-click="createTest()" class="btn-create-test">Создать тест</button>
+    <button ng-click="editTest()" class="btn-create-test">Изменить тест</button>
 </div>

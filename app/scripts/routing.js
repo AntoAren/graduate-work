@@ -91,6 +91,14 @@ angular.module('itest.portal.routing', ['ui.router'])
                 reloadOnSearch: true,
                 templateUrl: 'views/createnewtest/createnewtest.html',
                 controller: 'CreateNewTestCtrl'
+            },
+            {
+                title: 'Изменение теста',
+                name: 'edittest',
+                url: '/edit-test/:testId',
+                reloadOnSearch: true,
+                templateUrl: 'views/edittest/edittest.html',
+                controller: 'EditTestCtrl'
             }
         ];
 
