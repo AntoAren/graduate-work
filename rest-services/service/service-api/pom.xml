@@ -11,6 +11,8 @@
 
     <groupId>by.bsu.zakharankou.rest-services.service</groupId>
     <artifactId>service-api</artifactId>
-
+    <version>1.0-SNAPSHOT</version>
+    <name>Service API</name>
+    <packaging>jar</packaging>
 
 </project>

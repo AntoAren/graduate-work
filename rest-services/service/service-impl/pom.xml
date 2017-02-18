@@ -11,6 +11,16 @@
 
     <groupId>by.bsu.zakharankou.rest-services.service</groupId>
     <artifactId>service-impl</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <name>Service Implementation</name>
+    <packaging>jar</packaging>
 
+    <dependencies>
+        <dependency>
+            <groupId>by.bsu.zakharankou.rest-services.service</groupId>
+            <artifactId>service-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 
 </project>

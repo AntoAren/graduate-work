@@ -6,5 +6,5 @@ import org.springframework.data.domain.Pageable;
 
 public interface TestService {
 
-    public Page<Test> getTestsForAllTestsPage(Long categoryId, Long topicId, String search, Pageable pageable);
+    Page<Test> getTestsForAllTestsPage(Long categoryId, Long topicId, String search, Pageable pageable);
 }
