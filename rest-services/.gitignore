@@ -1,0 +1,14 @@
+/.idea
+/*.iml
+/*.iws
+/*.ipr
+/.sonar-ide.properties
+**/.settings
+**/.metadata
+**/.project
+**/.classpath
+/target
+/.sonar
+rest-services-logs
+/main/src/main/webapp/META-INF
+**/.metadata
