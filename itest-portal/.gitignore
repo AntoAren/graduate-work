@@ -1,6 +1,7 @@
 dist
 coverage
 .tmp
+.idea
 .sass-cache
 bower_components
 node_modules
