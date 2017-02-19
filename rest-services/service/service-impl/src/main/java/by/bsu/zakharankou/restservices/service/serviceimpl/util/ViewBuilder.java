@@ -1,4 +1,4 @@
-package by.bsu.zakharankou.restservices.controller.view;
+package by.bsu.zakharankou.restservices.service.serviceimpl.util;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
