@@ -2,12 +2,12 @@
 
 angular.module('itest.portal.data.services')
 
-.factory('testService', function($window, Restangular) {
+.factory('testService', function ($window, Restangular) {
     var restService = Restangular.one('tests');
 
     return {
 
-        getTestsAllTests: function(testParams) {
+        getTestsAllTests: function (testParams) {
             var params;
 
             testParams = testParams || {};
@@ -25,7 +25,7 @@ angular.module('itest.portal.data.services')
             return restService.get(params);
         },
 
-        getTestsAssignedToMe: function(testParams) {
+        getTestsAssignedToMe: function (testParams) {
             var params;
 
             testParams = testParams || {};
@@ -43,7 +43,7 @@ angular.module('itest.portal.data.services')
             return restService.get(params);
         },
 
-        getTestsMyResults: function(testParams) {
+        getTestsMyResults: function (testParams) {
             var params;
 
             testParams = testParams || {};
@@ -61,7 +61,7 @@ angular.module('itest.portal.data.services')
             return restService.get(params);
         },
 
-        getTestsCreatedByMe: function(testParams) {
+        getTestsCreatedByMe: function (testParams) {
             var params;
 
             testParams = testParams || {};
@@ -79,16 +79,28 @@ angular.module('itest.portal.data.services')
             return restService.get(params);
         },
 
-        createTest: function(test) {
+        createTest: function (test) {
             return restService.customPOST(test);
         },
 
-        getTest: function(testId) {
+        getTest: function (testId) {
             return restService.one(testId).get();
         },
 
-        editTest: function(testId, testParams) {
+        editTest: function (testId, testParams) {
             return restService.one(testId).put(testParams);
+        },
+
+        getTestPreviewInfo: function (testId) {
+            var params = {
+                view: 'allTests'
+            };
+
+            return restService.one('preview').one(testId).get(params);
+        },
+
+        addTestToMe: function (testId) {
+            return restService.one('add').one(testId).post();
         }
     };
 });

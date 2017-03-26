@@ -6,7 +6,7 @@ angular.module('itest.portal.common.services')
     return {
         open: function(type, item) {
             return ngDialog.openConfirm({
-                template: 'views/marketplace/common/orderdialog-template.html',
+                template: 'views/common/orderdialog-template.html',
                 closeByEscape: true,
                 showClose: false,
                 data: {

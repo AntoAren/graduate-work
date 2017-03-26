@@ -1,0 +1,57 @@
+<div disable-if="loadingTestData" preview-page>
+    <page-header header="Просмотр теста" back-to="{{backUrl}}"></page-header>
+
+    <!--Description-->
+    <section class="widget-desc">
+        <div class="wr section-content widget-desc-container separator">
+            <div class="widget-desc-item">
+                <div class="favicon hot-fix">
+                    <img width="64" height="64" alt="favicon" ng-src="images/test-logo.png"/>
+                </div>
+            </div>
+
+            <div class="widget-desc-item">
+                <h3 class="widget-name" ng-bind="test.name"></h3>
+            </div>
+
+            <div class="widget-desciption" ng-bind-html="information"></div>
+            <div class="widget-btn-container">
+                <div class="inner-btn second-btn">
+                    <order-button item="test"></order-button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--Test details-->
+    <section class="widget-details">
+        <div class="wr section-content">
+            <h4 class="section-header">Детали</h4>
+            <ul class="details">
+                <li>
+                    <span class="category">Категория:</span>
+                    <span class="value" ng-bind="test.category"></span>
+                </li>
+                <li>
+                    <span class="category">Тема:</span>
+                    <span class="value" ng-bind="test.topic"></span>
+                </li>
+                <li>
+                    <span class="category">Дата создания:</span>
+                    <span class="value" ng-bind="test.creationDate"></span>
+                </li>
+                <li>
+                    <span class="category">Автор:</span>
+                    <span class="value" ng-bind="test.createdBy"></span>
+                </li>
+                <li>
+                    <span class="category">Дата закрытия:</span>
+                    <span class="value" ng-bind="test.deadline"></span>
+                </li>
+                <li>
+                    <span class="category">Средний результат:</span>
+                    <span class="value" ng-bind="test.averageScore"></span><span class="value"> %</span>
+                </li>
+            </ul>
+        </div>
+    </section>
+</div>

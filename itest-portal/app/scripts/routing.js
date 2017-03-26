@@ -37,7 +37,7 @@ angular.module('itest.portal.routing', ['ui.router'])
                 templateUrl: 'views/auth/signup.html'
             },
             {
-                title: 'Home',
+                title: 'Главная страница',
                 name: 'home',
                 url: '/',
                 onEnter: ['$state', function ($state) {
@@ -58,7 +58,7 @@ angular.module('itest.portal.routing', ['ui.router'])
                 url: '/all-tests?category&topic&search&sort',
                 reloadOnSearch: true,
                 templateUrl: 'views/alltests/alltests.html',
-                controller: 'AllTestCtrl'
+                controller: 'AllTestsCtrl'
             },
             {
                 title: 'Назначенные мне',
@@ -99,6 +99,14 @@ angular.module('itest.portal.routing', ['ui.router'])
                 reloadOnSearch: true,
                 templateUrl: 'views/edittest/edittest.html',
                 controller: 'EditTestCtrl'
+            },
+            {
+                title: 'Просмотр теста',
+                name: 'alltestspreview',
+                url: '/all-tests/preview/:testId',
+                reloadOnSearch: true,
+                templateUrl: 'views/alltests/preview/alltestspreview.html',
+                controller: 'AllTestsPreviewCtrl'
             }
         ];
 

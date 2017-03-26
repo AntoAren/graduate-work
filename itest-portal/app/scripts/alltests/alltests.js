@@ -4,7 +4,10 @@ angular.module('itest.portal.all.controllers', []);
 
 angular.module('itest.portal.all.directives', []);
 
+angular.module('itest.portal.all.preview', []);
+
 angular.module('itest.portal.all', [
     'itest.portal.all.controllers',
-    'itest.portal.all.directives'
+    'itest.portal.all.directives',
+    'itest.portal.all.preview'
 ]);

@@ -2,32 +2,26 @@
 
 angular.module('itest.portal.common.directives')
 
-.directive('orderButton', function(authSession, notifier, orderDialog, dataSourceOrderService, widgetOrderService) {
+.directive('orderButton', function(authSession, notifier, orderDialog, testService) {
     return {
         restrict: 'E',
         replace: true,
         template: '<div disable-if="orderProcessing" class="order-btn-container">' +
-        '<div class="btn" href="" ng-show="visible && !isOwner" ng-bind="text" ng-class="class"' +
+        '<div class="btn" href="" ng-show="visible" ng-bind="text" ng-class="class"' +
         ' ng-click="openOrderDialog()"/></div>',
         scope: {
-            item: '=',
-            type: '@'
+            item: '='
         },
         link: function(scope) {
-            var createOrderFn = {
-                widget: widgetOrderService.createWidgetOrder,
-                dataSource: dataSourceOrderService.createDatasourceOrder
-            };
-            var canBeOrdered;
 
             scope.openOrderDialog = function() {
-                if (canBeOrdered) {
-                    orderDialog.open(scope.type, scope.item).then(function() {
+                if (!scope.item.added) {
+                    orderDialog.open(scope.item).then(function() {
                         scope.orderProcessing = true;
 
-                        createOrderFn[scope.type](scope.item.urn || scope.item.id).then(function() {
-                            scope.item.ordered = true;
-                            notifier.success('The order has been successfully created.');
+                        testService.addTestToMe(scope.item.id).then(function () {
+                            scope.item.added = true;
+                            notifier.success('Тест был успешно добавлен.');
                         }).finally(function() {
                             scope.orderProcessing = false;
                         });
@@ -37,27 +31,15 @@ angular.module('itest.portal.common.directives')
 
             scope.$watch('item', function() {
                 if (scope.item) {
-                    canBeOrdered = authSession.isOrganizationAdmin() &&
-                        !(scope.item.subscribed || scope.item.ordered || scope.item.privatelyAccessible ||
-                        scope.item.own);
-                    scope.isOwner = scope.item.own;
 
-                    if (canBeOrdered) {
-                        scope.text = 'order';
+                    if (!scope.item.added) {
+                        scope.text = 'Добавить';
                         scope.class = 'btn-brand';
                         scope.visible = true;
-                    } else if (scope.item.subscribed && (!scope.item.privatelyAccessible || scope.item.own)) {
-                        scope.text = 'subscribed';
+                    } else {
+                        scope.text = 'Добавлен';
                         scope.class = 'btn-green pointer-disabled';
                         scope.visible = true;
-                    } else if (authSession.isOrganizationAdmin() && scope.item.ordered &&
-                            (!scope.item.privatelyAccessible || scope.item.own)) {
-                        scope.text = 'ordered';
-                        scope.class = 'btn-plum pointer-disabled';
-                        scope.visible = true;
-                    } else {
-                        scope.text = '';
-                        scope.visible = false;
                     }
                 }
             }, true);

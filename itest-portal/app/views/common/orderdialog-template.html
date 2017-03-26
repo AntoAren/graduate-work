@@ -1,14 +1,14 @@
 <div class="dialog order-application">
 	<form name="orderForm" id="orderForm" class="order-form">
-		<div class="title">Order this {{(ngDialogData.type === 'widget') ? 'widget' : 'data source'}}?</div>
+		<div class="title">Вы действительно хотите добавить этот тест?</div>
 		<h4 class="message" ng-bind="ngDialogData.item.name"></h4>
-		<p class="message">You will be shortly contacted by administrator in order to discuss payment details.</p>
+		<p class="message">Вы сможете пройти его на странице "Назначенные мне".</p>
         <div class="button-wrapper">
             <button ng-click="confirm()" class="btn btn-confirm confirm" type="submit">
-                <div>Submit</div>
+                <div>Да</div>
             </button>
             <button class="btn btn-cancel" type="button" ng-click="closeThisDialog()">
-                <div>Cancel</div>
+                <div>Нет</div>
             </button>
         </div>
 	</form>

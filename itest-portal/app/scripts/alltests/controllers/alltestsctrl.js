@@ -2,7 +2,7 @@
 
 angular.module('itest.portal.all.controllers')
 
-.controller('AllTestCtrl', function($scope, $location, testService, PagingModel,
+.controller('AllTestsCtrl', function($scope, $location, testService, PagingModel,
             $stateParams, categoryService, topicService, $state, previousStateService) {
     var paging = new PagingModel(testService.getTestsAllTests);
     var CATEGORY_PARAM = 'category';
@@ -166,6 +166,10 @@ angular.module('itest.portal.all.controllers')
         setSelectedOption($scope.topicOptions.items, filters.topic);
         setSelectedOption($scope.sortOptions.items, filters.sort);
         loadTests();
+    };
+
+    $scope.showItem = function (plate) {
+        return $state.href('alltestspreview', {testId: plate.id});
     };
 
     previousStateService.pushPreviousState($state.$current.name);
