@@ -1,0 +1,12 @@
+{
+    "list": [
+        {
+            "questionId": 1,
+            "answerIds": [ 1 ]
+        },
+        {
+            "questionId": 3,
+            "answerIds": [ 9 ]
+        }
+    ]
+}

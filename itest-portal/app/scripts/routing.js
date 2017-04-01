@@ -104,7 +104,6 @@ angular.module('itest.portal.routing', ['ui.router'])
                 title: 'Просмотр теста',
                 name: 'alltestspreview',
                 url: '/all-tests/preview/:testId',
-                reloadOnSearch: true,
                 templateUrl: 'views/alltests/preview/alltestspreview.html',
                 controller: 'AllTestsPreviewCtrl'
             },
@@ -112,7 +111,6 @@ angular.module('itest.portal.routing', ['ui.router'])
                 title: 'Просмотр теста',
                 name: 'assignedtomepreview',
                 url: '/assigned-to-me/preview/:testId',
-                reloadOnSearch: true,
                 templateUrl: 'views/assignedtome/preview/assignedtomepreview.html',
                 controller: 'AssignedToMePreviewCtrl'
             },
@@ -120,9 +118,15 @@ angular.module('itest.portal.routing', ['ui.router'])
                 title: 'Просмотр теста',
                 name: 'myresultspreview',
                 url: '/my-results/preview/:testId',
-                reloadOnSearch: true,
                 templateUrl: 'views/myresults/preview/myresultspreview.html',
                 controller: 'MyResultsPreviewCtrl'
+            },
+            {
+                title: 'Прохождение теста',
+                name: 'testpassing',
+                url: '/passing-test/:testId',
+                templateUrl: 'views/testpassing/testpassing.html',
+                controller: 'TestPassingCtrl'
             }
         ];
 

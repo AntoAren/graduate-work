@@ -19,7 +19,7 @@ angular.module('itest.portal.common.directives')
                     var text = 'Вы не сможете пройти его еще раз позже.';
 
                     orderDialog.open(scope.item, header, text).then(function() {
-                        $state.go('passingtest', {testId: item.id});
+                        $state.go('testpassing', {testId: scope.item.id});
                     });
                 };
 

@@ -24,10 +24,14 @@ function mockInterceptor() {
                 config.url = 'mockData/tests.all.preview.mock.json';
             } else if (config.url.indexOf('/tests/preview/1') >= 0 && config.params && (config.params.view === 'myResults')) {
                 config.url = 'mockData/tests.myresults.preview.mock.json';
+            } else if (config.url.indexOf('/tests/1/passing') >= 0) {
+                config.url = 'mockData/tests.passingtest.mock.json';
             } else if (config.url.indexOf('/tests/1') >= 0) {
                 config.url = 'mockData/test.mock.json';
             } else if ((config.url.indexOf('/tests') >= 0) && config.params && (config.params.view === 'myResults' || config.params.view === 'allTests' || config.params.view === 'assignedToMe' || config.params.view === 'createdByMe')) {
                 config.url = 'mockData/tests.all.mock.json';
+            } else if (config.url.indexOf('/answers/1') >= 0) {
+                config.url = 'mockData/tests.answers.mock.json';
             }
 
             return config;

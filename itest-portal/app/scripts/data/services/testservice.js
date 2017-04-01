@@ -97,6 +97,10 @@ angular.module('itest.portal.data.services')
 
         addTestToMe: function (testId) {
             return restService.one('add').one(testId.toString()).post();
+        },
+
+        getTestForPassing: function (testId) {
+            return restService.one(testId).one('passing').get();
         }
     };
 });
