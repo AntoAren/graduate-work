@@ -1,11 +1,11 @@
 'use strict';
 
-angular.module('itest.portal.all.preview.controllers')
+angular.module('itest.portal.myresults.preview.controllers')
 
-    .controller('AllTestsPreviewCtrl', function($scope, $stateParams, testService, $state) {
+    .controller('MyResultsPreviewCtrl', function($scope, $stateParams, testService, $state) {
         var loadTestPreviewInfo = function () {
             var params = {
-                view: 'allTests'
+                view: 'myResults'
             };
             testService.getPreviewInfo($stateParams.testId, params).then(function (response) {
                 $scope.test = response;
@@ -16,7 +16,7 @@ angular.module('itest.portal.all.preview.controllers')
         };
 
         var getBackUrl = function() {
-            return $state.href('alltests', {});
+            return $state.href('myresults', {});
         };
 
         $scope.backUrl = getBackUrl();

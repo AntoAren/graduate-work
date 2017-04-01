@@ -1,8 +1,8 @@
 <div class="dialog order-application">
 	<form name="orderForm" id="orderForm" class="order-form">
-		<div class="title">Вы действительно хотите добавить этот тест?</div>
+		<div class="title"><span ng-bind="ngDialogData.header"></span></div>
 		<h4 class="message" ng-bind="ngDialogData.item.name"></h4>
-		<p class="message">Вы сможете пройти его на странице "Назначенные мне".</p>
+		<p class="message"><span ng-bind="ngDialogData.text"></span></p>
         <div class="button-wrapper">
             <button ng-click="confirm()" class="btn btn-confirm confirm" type="submit">
                 <div>Да</div>

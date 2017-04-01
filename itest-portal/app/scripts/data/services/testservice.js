@@ -91,16 +91,12 @@ angular.module('itest.portal.data.services')
             return restService.one(testId).put(testParams);
         },
 
-        getTestPreviewInfo: function (testId) {
-            var params = {
-                view: 'allTests'
-            };
-
+        getPreviewInfo: function (testId, params) {
             return restService.one('preview').one(testId).get(params);
         },
 
         addTestToMe: function (testId) {
-            return restService.one('add').one(testId).post();
+            return restService.one('add').one(testId.toString()).post();
         }
     };
 });

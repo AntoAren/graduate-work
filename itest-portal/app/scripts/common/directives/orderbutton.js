@@ -16,7 +16,10 @@ angular.module('itest.portal.common.directives')
 
             scope.openOrderDialog = function() {
                 if (!scope.item.added) {
-                    orderDialog.open(scope.item).then(function() {
+                    var header = 'Вы действительно хотите добавить этот тест?';
+                    var text = 'Вы сможете пройти его на странице "Назначенные мне".';
+
+                    orderDialog.open(scope.item, header, text).then(function() {
                         scope.orderProcessing = true;
 
                         testService.addTestToMe(scope.item.id).then(function () {

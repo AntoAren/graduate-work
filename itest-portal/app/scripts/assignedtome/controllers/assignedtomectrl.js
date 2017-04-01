@@ -168,6 +168,10 @@ angular.module('itest.portal.assignedtome.controllers')
             loadTests();
         };
 
+        $scope.showItem = function (plate) {
+            return $state.href('assignedtomepreview', {testId: plate.id});
+        };
+
         previousStateService.pushPreviousState($state.$current.name);
 
         loadTests();

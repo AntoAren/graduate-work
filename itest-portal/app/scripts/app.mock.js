@@ -20,8 +20,10 @@ function mockInterceptor() {
             } else if (config.url.indexOf('/tests/add/1') >= 0){
                 config.url = 'mockData/tests.all.preview.add.mock.json';
                 config.method = 'GET';
-            } else if (config.url.indexOf('/tests/preview/1') >= 0 && config.params && (config.params.view === 'allTests')) {
+            } else if (config.url.indexOf('/tests/preview/1') >= 0 && config.params && (config.params.view === 'allTests' || config.params.view === 'assignedToMe')) {
                 config.url = 'mockData/tests.all.preview.mock.json';
+            } else if (config.url.indexOf('/tests/preview/1') >= 0 && config.params && (config.params.view === 'myResults')) {
+                config.url = 'mockData/tests.myresults.preview.mock.json';
             } else if (config.url.indexOf('/tests/1') >= 0) {
                 config.url = 'mockData/test.mock.json';
             } else if ((config.url.indexOf('/tests') >= 0) && config.params && (config.params.view === 'myResults' || config.params.view === 'allTests' || config.params.view === 'assignedToMe' || config.params.view === 'createdByMe')) {

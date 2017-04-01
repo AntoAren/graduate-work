@@ -168,6 +168,10 @@ angular.module('itest.portal.myresults.controllers')
             loadTests();
         };
 
+        $scope.showItem = function (plate) {
+            return $state.href('myresultspreview', {testId: plate.id});
+        };
+
         previousStateService.pushPreviousState($state.$current.name);
 
         loadTests();

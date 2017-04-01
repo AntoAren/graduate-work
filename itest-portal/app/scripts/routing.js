@@ -107,6 +107,22 @@ angular.module('itest.portal.routing', ['ui.router'])
                 reloadOnSearch: true,
                 templateUrl: 'views/alltests/preview/alltestspreview.html',
                 controller: 'AllTestsPreviewCtrl'
+            },
+            {
+                title: 'Просмотр теста',
+                name: 'assignedtomepreview',
+                url: '/assigned-to-me/preview/:testId',
+                reloadOnSearch: true,
+                templateUrl: 'views/assignedtome/preview/assignedtomepreview.html',
+                controller: 'AssignedToMePreviewCtrl'
+            },
+            {
+                title: 'Просмотр теста',
+                name: 'myresultspreview',
+                url: '/my-results/preview/:testId',
+                reloadOnSearch: true,
+                templateUrl: 'views/myresults/preview/myresultspreview.html',
+                controller: 'MyResultsPreviewCtrl'
             }
         ];
 
