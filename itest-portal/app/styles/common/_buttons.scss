@@ -143,3 +143,25 @@
 .pointer-disabled {
     cursor: default;
 }
+
+.btn-next {
+    width: 36px;
+    height: 36px;
+    background: url(#{$imagesPath}/arrow_right.png) no-repeat;
+    border: none;
+    background-color: transparent;
+}
+
+.btn-previous {
+    width: 36px;
+    height: 36px;
+    border: none;
+    background-color: transparent;
+    background: url(#{$imagesPath}/arrow_right.png) no-repeat;
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+}

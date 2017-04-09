@@ -9,6 +9,15 @@ angular.module('itest.portal.data.services')
 
             getAnswers: function (testId) {
                 return restService.one(testId).get();
+            },
+
+            submitAnswer: function (testId, questionId, answerId) {
+                var params = {
+                    testId: testId,
+                    questionId: questionId,
+                    answerId: answerId
+                };
+                return restService.customPOST(params);
             }
         };
     });

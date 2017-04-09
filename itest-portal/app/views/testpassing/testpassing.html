@@ -1,10 +1,19 @@
-<div>
+<div ng-if="!loading">
     <!-- Indicator line
     <div></div>
     -->
-    <div ng-repeat="question in test.questions">
-        <div ng-show="question.active">
-            {{::question.text}}
+    <div class="test-container">
+        <div class="question-container">
+            {{::activeQuestion.text}}
+            <div ng-repeat="answer in activeQuestion.answers" class="answer-container">
+                <input type="checkbox" ng-model="answer.selected" ng-change="sendAnswer(activeQuestion.id, answer.id)" class="btn-checkbox"><a class="input-answer">{{::answer.text}}</a>
+            </div>
+        </div>
+        <div>
+            <button ng-disabled="!hasPreviousQuestion()" ng-click="previousQuestion()" class="btn-previous"></button>
+        </div>
+        <div>
+            <button ng-disabled="!hasNextQuestion()" ng-click="nextQuestion()" class="btn-next"></button>
         </div>
     </div>
 </div>
