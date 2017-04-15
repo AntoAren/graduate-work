@@ -2,7 +2,7 @@
 
 angular.module('itest.portal.testpassing.controllers')
 
-    .controller('TestPassingCtrl', function ($scope, testService, $stateParams, answerService) {
+    .controller('TestPassingCtrl', function ($scope, testService, $stateParams, answerService, orderDialog, notifier) {
         var matchAnswersToQuestions = function () {
             $.each($scope.answers, function (answerIndex, answer) {
                 $.each($scope.test.questions, function (questionIndex, question) {
@@ -14,6 +14,23 @@ angular.module('itest.portal.testpassing.controllers')
                         });
                     }
                 });
+            });
+        };
+
+        var fillQuestionStatuses = function () {
+            $.each($scope.test.questions, function (questionIndex, question) {
+                var hasAnswer = false;
+                $.each(question.answers, function (answerIndex, answer) {
+                    if (answer.selected) {
+                        hasAnswer = true;
+                    }
+                });
+                $scope.questionStatuses.push(
+                    {
+                        questionId: question.id,
+                        hasAnswer: hasAnswer
+                    }
+                );
             });
         };
 
@@ -31,10 +48,28 @@ angular.module('itest.portal.testpassing.controllers')
             answerService.getAnswers($stateParams.testId).then(function (response) {
                 $scope.answers = response.list;
                 matchAnswersToQuestions();
+                fillQuestionStatuses();
                 $scope.loading = false;
             }, function () {
 
             });
+        };
+
+        var getAnswers = function () {
+            var results = [];
+            $.each($scope.test.questions, function (questionIndex, question) {
+                var result = {
+                    questionId: question.id,
+                    answerIds: []
+                };
+                $.each(question.answers, function (answerIndex, answer) {
+                    if (answer.selected) {
+                        result.answerIds.push(answer.id);
+                    }
+                });
+                results.push(result);
+            });
+            return results;
         };
 
         $scope.hasPreviousQuestion = function () {
@@ -56,6 +91,8 @@ angular.module('itest.portal.testpassing.controllers')
             });
             return result;
         };
+
+        $scope.questionStatuses = [];
 
         $scope.loading = true;
 
@@ -80,8 +117,38 @@ angular.module('itest.portal.testpassing.controllers')
         };
 
         $scope.sendAnswer = function (questionId, answerId) {
+            var hasAnswer = false;
+            $.each($scope.test.questions, function (questionIndex, question) {
+                if (question.id === questionId) {
+                    $.each(question.answers, function (answerIndex, answer) {
+                        if (answer.selected) {
+                            hasAnswer = true;
+                        }
+                    });
+                }
+            });
+            $.each($scope.questionStatuses, function (questionStatusIndex, questionStatus) {
+                if (questionStatus.questionId === questionId) {
+                    questionStatus.hasAnswer = hasAnswer;
+                }
+            });
             answerService.submitAnswer($scope.test.id, questionId, answerId).then(function (response) {
 
+            });
+        };
+
+        $scope.openCompleteDialog = function() {
+            var header = 'Вы действительно хотите завершить тест?';
+            var text = 'Вопросы оставленные без ответа будут засчитаны как отвеченные неправильно.';
+
+            orderDialog.open($scope.test, header, text).then(function() {
+                $scope.orderProcessing = true;
+
+                testService.completeTest(getAnswers()).then(function () {
+                    notifier.success('Тест был успешно завершен.');
+                }).finally(function() {
+                    $scope.orderProcessing = false;
+                });
             });
         };
 

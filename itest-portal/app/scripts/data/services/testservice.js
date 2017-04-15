@@ -101,6 +101,10 @@ angular.module('itest.portal.data.services')
 
         getTestForPassing: function (testId) {
             return restService.one(testId).one('passing').get();
+        },
+
+        completeTest: function (answers) {
+            return restService.one('complete').customPOST(answers);
         }
     };
 });

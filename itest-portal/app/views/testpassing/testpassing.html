@@ -1,19 +1,28 @@
 <div ng-if="!loading">
-    <!-- Indicator line
-    <div></div>
-    -->
+    <div class="status-line-container">
+        <div status-line count="questionStatuses.length" ng-repeat="questionStatus in questionStatuses"
+             ng-class="{'div-answered': (questionStatus.hasAnswer && (questionStatus.questionId !== activeQuestionId)),
+                        'div-unanswered': (!questionStatus.hasAnswer && (questionStatus.questionId !== activeQuestionId)),
+                        'div-active-question': (questionStatus.questionId === activeQuestion.id)}">
+        </div>
+    </div>
     <div class="test-container">
         <div class="question-container">
-            {{::activeQuestion.text}}
+            <p ng-bind="activeQuestion.text"></p>
             <div ng-repeat="answer in activeQuestion.answers" class="answer-container">
                 <input type="checkbox" ng-model="answer.selected" ng-change="sendAnswer(activeQuestion.id, answer.id)" class="btn-checkbox"><a class="input-answer">{{::answer.text}}</a>
             </div>
         </div>
         <div>
-            <button ng-disabled="!hasPreviousQuestion()" ng-click="previousQuestion()" class="btn-previous"></button>
-        </div>
-        <div>
-            <button ng-disabled="!hasNextQuestion()" ng-click="nextQuestion()" class="btn-next"></button>
+            <div class="btns-container">
+                <button ng-disabled="!hasPreviousQuestion()" ng-click="previousQuestion()" ng-class="{'btn-disabled': !hasPreviousQuestion()}" class="btn-previous"></button>
+            </div>
+            <div class="btns-container">
+                <button ng-disabled="!hasNextQuestion()" ng-click="nextQuestion()" ng-class="{'btn-disabled': !hasNextQuestion()}" class="btn-next"></button>
+            </div>
+            <div class="btns-container">
+                <button ng-click="openCompleteDialog()" class="btn-finish"></button>
+            </div>
         </div>
     </div>
 </div>

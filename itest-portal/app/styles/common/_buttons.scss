@@ -165,3 +165,39 @@
     filter: FlipH;
     -ms-filter: "FlipH";
 }
+
+.btn-disabled {
+    opacity: 0.5;
+}
+
+.btns-container {
+    display: inline-block;
+}
+
+.div-answered {
+    display: inline-block;
+    background-color: green;
+}
+
+.div-unanswered {
+    display: inline-block;
+    background-color: red;
+}
+
+.div-active-question {
+    display: inline-block;
+    background-color: deepskyblue;
+}
+
+.status-line-container {
+    top: -11px;
+    width: 100%;
+}
+
+.btn-finish {
+    width: 36px;
+    height: 36px;
+    background: url(#{$imagesPath}/finish.png) no-repeat;
+    border: none;
+    background-color: transparent;
+}

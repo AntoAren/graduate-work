@@ -40,29 +40,6 @@ angular.module('itest.portal.data.services')
                 return tokensService.customPOST(data, 'access', params, headers);
             },
 
-            createAccessTokenUsingThirdPartyToken: function (organizationId, token, data) {
-                var headers = {Authorization: 'Bearer ' + token};
-
-                return tokensService.customPOST(data, 'access/using-third-party-token',
-                {organizationId: organizationId}, headers);
-            },
-
-            createIdentityTokenUsingThirdPartyToken: function (organizationId, token, data) {
-                var headers = {Authorization: 'Bearer ' + token};
-
-                return tokensService.customPOST(data, 'identity/using-third-party-token',
-                {organizationId: organizationId}, headers);
-            },
-
-            refreshAccessToken: function (token, refreshToken) {
-                var headers = {Authorization: 'Bearer ' + token};
-                var data = {
-                    refreshToken: refreshToken
-                };
-
-                return tokensService.customPOST(data, 'refresh/access', {}, headers);
-            },
-
             refreshIdentityToken: function (token, refreshToken) {
                 var headers = {Authorization: 'Bearer ' + token};
                 var data = {
