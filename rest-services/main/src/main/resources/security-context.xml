@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+                           http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd">
+
+    <!-- Mapping for exceptions and status codes -->
+    <import resource="exception-context.xml" />
+
+    <bean id="authenticationEntryPoint" class="by.bsu.zakharankou.restservices.controller.authentication.AuthenticationEntryPoint" />
+
+    <security:http entry-point-ref="authenticationEntryPoint" create-session="never">
+        <security:custom-filter ref="bearerHeaderAuthenticationFilter" position="BASIC_AUTH_FILTER" />
+        <security:csrf disabled="true"/>
+    </security:http>
+
+    <bean id="bearerHeaderAuthenticationFilter" class="by.bsu.zakharankou.restservices.controller.authentication.BearerHeaderAuthenticationFilter">
+        <property name="authenticationManager" ref="authenticationManager" />
+        <property name="excludePatterns">
+            <list>
+                <value>/heartbeat/*</value>
+                <value>/tokens/*</value>
+                <value>/user-registration/*</value>
+            </list>
+        </property>
+        <property name="authenticationSuccessHandler" ref="authenticationSuccessHandler" />
+        <property name="authenticationDetailsSource" ref="authenticationDetailsSource" />
+    </bean>
+
+    <bean name="authenticationDetailsSource" class = "by.bsu.zakharankou.restservices.controller.authentication.AuthenticationDetailsSource"/>
+
+    <bean id="userDetailsAuthenticationProvider" class="by.bsu.zakharankou.restservices.controller.authentication.UserDetailsAuthenticationProvider" />
+
+    <bean id="authenticationSuccessHandler" class="by.bsu.zakharankou.restservices.controller.authentication.AuthenticationSuccessHandler" />
+
+    <security:authentication-manager alias="authenticationManager">
+        <security:authentication-provider ref="userDetailsAuthenticationProvider" />
+    </security:authentication-manager>
+
+</beans>

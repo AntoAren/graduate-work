@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd">
+
+    <bean id="exceptionStatusCodeResolver" class="by.bsu.zakharankou.restservices.controller.ExceptionStatusCodeResolver">
+        <constructor-arg>
+            <map key-type="java.lang.Class" value-type="org.springframework.http.HttpStatus">
+                <!-- Service exceptions -->
+                <!-- Web exceptions -->
+                <entry key="org.springframework.security.web.authentication.preauth.PreAuthenticatedCredentialsNotFoundException" value="FORBIDDEN"/>
+                <entry key="org.springframework.security.access.AccessDeniedException" value="FORBIDDEN"/>
+                <entry key="org.springframework.security.authentication.InsufficientAuthenticationException" value="UNAUTHORIZED"/>
+                <entry key="org.springframework.security.authentication.BadCredentialsException" value="UNAUTHORIZED"/>
+                <entry key="org.springframework.web.bind.MissingServletRequestParameterException" value="BAD_REQUEST"/>
+                <entry key="org.springframework.web.bind.UnsatisfiedServletRequestParameterException" value="BAD_REQUEST"/>
+                <entry key="org.springframework.web.HttpMediaTypeNotAcceptableException" value="BAD_REQUEST"/>
+                <entry key="org.springframework.web.HttpMediaTypeNotSupportedException" value="UNSUPPORTED_MEDIA_TYPE"/>
+                <entry key="org.springframework.web.HttpRequestMethodNotSupportedException" value="METHOD_NOT_ALLOWED"/>
+                <entry key="org.springframework.web.bind.ServletRequestBindingException" value="BAD_REQUEST"/>
+                <entry key="org.springframework.http.converter.HttpMessageNotReadableException" value="BAD_REQUEST"/>
+                <entry key="org.springframework.beans.TypeMismatchException" value="BAD_REQUEST"/>
+                <entry key="by.bsu.zakharankou.restservices.tokenvalidator.exceptions.ExpiredTokenException" value="UNAUTHORIZED"/>
+                <entry key="by.bsu.zakharankou.restservices.tokenvalidator.exceptions.InvalidTokenException" value="UNAUTHORIZED"/>
+                <entry key="by.bsu.zakharankou.restservices.tokenvalidator.exceptions.InvalidTokenTypeException" value="FORBIDDEN"/>
+                <entry key="by.bsu.zakharankou.restservices.tokenvalidator.exceptions.InvalidScopeException" value="FORBIDDEN"/>
+            </map>
+        </constructor-arg>
+    </bean>
+
+    <!-- Json view, capable of converting any POJO to json format -->
+    <bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>
+
+</beans>

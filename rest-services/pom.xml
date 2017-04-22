@@ -8,18 +8,20 @@
     <artifactId>rest-services</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
-    <packing>pom</packing>
     <name>Rest Services Parent Project</name>
     <modules>
         <module>service</module>
         <module>model</module>
         <module>controller</module>
         <module>repository</module>
-        <module>repository</module>
+        <module>main</module>
+        <module>token-validator</module>
+        <module>common</module>
     </modules>
 
     <properties>
         <spring.io.platform.version>2.0.6.RELEASE</spring.io.platform.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencyManagement>
@@ -35,6 +37,13 @@
     </dependencyManagement>
 
     <dependencies>
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.servlet</artifactId>
+            <version>3.0</version>
+            <scope>provided</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>

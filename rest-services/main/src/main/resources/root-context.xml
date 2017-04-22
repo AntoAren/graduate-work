@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd
+                           http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+
+    <context:property-placeholder location="classpath:configuration.properties" system-properties-mode="OVERRIDE"/>
+
+    <!-- until migration process is not finished need to specify jpa repositories
+    <jpa:repositories entity-manager-factory-ref="itestEntityManagerFactory" transaction-manager-ref="itestTransactionManager"
+                      base-package="">
+    </jpa:repositories>-->
+
+    <context:component-scan base-package="by.bsu.zakharankou.*"/>
+
+    <bean id="dbUserCredentials" class="org.springframework.data.authentication.UserCredentials">
+        <constructor-arg name="username" value="pref_user"/>
+        <constructor-arg name="password" value="pref_pass"/>
+    </bean>
+
+    <bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.MessageDigestPasswordEncoder">
+        <constructor-arg value="SHA-256"/>
+        <property name="encodeHashAsBase64" value="false"/>
+    </bean>
+
+    <bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
+    </bean>
+
+    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate" />
+
+</beans>
