@@ -17,16 +17,7 @@
         <property name="favorPathExtension" value="false"/>
     </bean>
 
-    <mvc:interceptors>
-        <bean id="responseCachingFilter" class="org.springframework.web.servlet.mvc.WebContentInterceptor">
-            <property name="alwaysMustRevalidate" value="true" />
-            <property name="cacheSeconds" value="0" />
-        </bean>
-    </mvc:interceptors>
-
     <mvc:default-servlet-handler/>
-
-    <aop:aspectj-autoproxy/>
 
     <context:component-scan base-package="by.bsu.zakharankou.*"/>
 

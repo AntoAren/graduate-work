@@ -26,13 +26,13 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>by.bsu.zakharankou.rest-services</groupId>
-            <artifactId>repository</artifactId>
+            <groupId>by.bsu.zakharankou.rest-services.repository</groupId>
+            <artifactId>repository-impl</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>by.bsu.zakharankou.rest-services</groupId>
-            <artifactId>service</artifactId>
+            <groupId>by.bsu.zakharankou.rest-services.service</groupId>
+            <artifactId>service-impl</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>

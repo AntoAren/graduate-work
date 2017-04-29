@@ -25,9 +25,7 @@ public class User {
     private String username;
     private String displayName;
     private String password;
-
     private String salt;
-    private boolean confirmed;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "authority_user", joinColumns = {@JoinColumn(name = "username")},
@@ -83,14 +81,6 @@ public class User {
 
     public void setSalt(String salt) {
         this.salt = salt;
-    }
-
-    public boolean isConfirmed() {
-        return confirmed;
-    }
-
-    public void setConfirmed(boolean confirmed) {
-        this.confirmed = confirmed;
     }
 
     static Set<String> expandValues(final String values) {

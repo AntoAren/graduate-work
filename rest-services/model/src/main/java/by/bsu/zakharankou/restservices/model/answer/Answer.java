@@ -13,6 +13,8 @@ public class Answer {
 
     private Long testId;
 
+    private Long questionId;
+
     private String text;
 
     private Boolean correct;
@@ -32,6 +34,13 @@ public class Answer {
         return text;
     }
 
+    public Long getQuestionId() {
+        return questionId;
+    }
+
+    public void setQuestionId(Long questionId) {
+        this.questionId = questionId;
+    }
     public Long getTestId() {
         return testId;
     }

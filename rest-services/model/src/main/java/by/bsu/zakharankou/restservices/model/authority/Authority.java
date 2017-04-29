@@ -6,11 +6,9 @@ import javax.persistence.Id;
 @Entity
 public class Authority {
 
+    public static final String ROLE_SIMPLE_USER = "ROLE_SIMPLE_USER";
     public static final String ROLE_DEVELOPER = "ROLE_DEVELOPER";
     public static final String ROLE_ADMIN = "ROLE_ADMIN";
-    public static final String ROLE_APPSTORE_ADMIN = "ROLE_APPSTORE_ADMIN";
-    public static final String ROLE_ANONYMOUS = "ROLE_ANONYMOUS";
-    public static final String ROLE_SALES = "ROLE_SALES";
 
     @Id
     private String name;
