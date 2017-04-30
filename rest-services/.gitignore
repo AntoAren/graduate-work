@@ -13,3 +13,4 @@ rest-services-logs
 /main/src/main/webapp/META-INF
 **/.metadata
 */target/*
+/service/service-impl/src/main/resources/
