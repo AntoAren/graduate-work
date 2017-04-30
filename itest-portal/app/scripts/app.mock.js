@@ -8,16 +8,7 @@ angular.module('app.mock',[])
 function mockInterceptor() {
     return {
         'request': function (config) {
-            if (config.url.indexOf('/users') >= 0) {
-                config.url = 'mockData/user.mock.json';
-            } else if (config.url.indexOf('/tokens/identity') >= 0) {
-                config.url = 'mockData/token.mock.json';
-                config.method = 'GET';
-            } else if (config.url.indexOf('/categories') >= 0) {
-                config.url = 'mockData/categories.all.mock.json';
-            } else if (config.url.indexOf('/topics') >= 0) {
-                config.url = 'mockData/topics.all.mock.json';
-            } else if (config.url.indexOf('/tests/add/1') >= 0){
+            if (config.url.indexOf('/tests/add/1') >= 0){
                 config.url = 'mockData/tests.all.preview.add.mock.json';
                 config.method = 'GET';
             } else if (config.url.indexOf('/tests/preview/1') >= 0 && config.params && (config.params.view === 'allTests' || config.params.view === 'assignedToMe')) {

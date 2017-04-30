@@ -27,6 +27,8 @@ angular.module('itest.portal', [
     })
     .run(function ($rootScope, $state, Restangular, CONFIG, authSession, $window, notifier, previousStateService) {
 
+        var tokensEndpoint = CONFIG.restServicesEndpoint + '/tokens';
+
         var publicStates = [
             'login',
             'logout',
@@ -58,7 +60,17 @@ angular.module('itest.portal', [
         });
 
         Restangular.setFullRequestInterceptor(function (element, operation, route, url, headers, params, httpConfig) { // jshint ignore:line
-            headers.Authorization = 'Bearer '+ authSession.getIdentityToken();
+            var token;
+
+            if (url.indexOf(tokensEndpoint) !== 0) {
+                token = authSession.getIdentityToken();
+
+                if (token === '') {
+                    headers.Authorization = 'Bearer';
+                } else {
+                    headers.Authorization = 'Bearer ' + token;
+                }
+            }
 
             return {
                 element: element,

@@ -15,13 +15,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
 
-//    /**
-//     * Finds user by its name.
-//     *
-//     * @param username user's name
-//     * @return user
-//     */
-//    User findByUsername(String username);
+    /**
+     * Finds user by its name.
+     *
+     * @param username user's name
+     * @return user
+     */
+    User findByUsername(String username);
 //
 //    /**
 //     * Finds user by its name and password.

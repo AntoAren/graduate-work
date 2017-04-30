@@ -4,6 +4,7 @@ import by.bsu.zakharankou.restservices.model.authority.Authority;
 import by.bsu.zakharankou.restservices.model.user.User;
 import by.bsu.zakharankou.restservices.repository.user.UserRepository;
 import by.bsu.zakharankou.restservices.service.serviceapi.AuthorityService;
+import by.bsu.zakharankou.restservices.service.serviceapi.EntityNotFoundException;
 import by.bsu.zakharankou.restservices.service.serviceapi.user.UserDetails;
 import by.bsu.zakharankou.restservices.service.serviceapi.user.UserService;
 import by.bsu.zakharankou.restservices.service.serviceimpl.transaction.ReadOnlyTransactional;
@@ -16,7 +17,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static by.bsu.zakharankou.restservices.service.serviceapi.Messages.ERROR_USER_DETAILS_NULL;
+import static by.bsu.zakharankou.restservices.service.serviceapi.Messages.*;
+import static org.springframework.util.StringUtils.hasText;
 
 /**
  * Implementation of {@link UserService}.
@@ -39,7 +41,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUser(String username) {
-        return null;
+        if (!hasText(username)) {
+            throw new EntityNotFoundException(ERROR_USER_NAME_EMPTY);
+        }
+        final User user = userRepository.findByUsername(username);
+        if (user == null) {
+            throw new EntityNotFoundException(String.format(ERROR_USER_NOT_FOUND, username));
+        }
+        return user;
     }
 
     @Override
@@ -49,8 +58,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User addSelfRegisteredUser(UserDetails userDetails) {
-
-        return null;
+        return createUser(userDetails);
     }
 
     @Override
@@ -92,6 +100,28 @@ public class UserServiceImpl implements UserService {
         user.setAuthorities(authorities);
 
         user = userRepository.save(user);
+
+        return user;
+    }
+
+    @Override
+    public User getUser(final String username, final String password) {
+        if (!hasText(username)) {
+            throw new EntityNotFoundException(ERROR_USER_NAME_EMPTY);
+        }
+        if (!hasText(password)) {
+            throw new EntityNotFoundException(String.format(ERROR_USER_NOT_FOUND, username));
+        }
+
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            throw new EntityNotFoundException(ERROR_INVALID_USERNAME_PASSWORD);
+        }
+
+        String expectedPassword = passwordEncoder.encodePassword(password, user.getSalt());
+        if (!user.getPassword().equals(expectedPassword)) {
+            throw new EntityNotFoundException(ERROR_INVALID_USERNAME_PASSWORD);
+        }
 
         return user;
     }

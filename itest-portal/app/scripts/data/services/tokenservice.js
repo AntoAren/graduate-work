@@ -24,22 +24,6 @@ angular.module('itest.portal.data.services')
                 return tokensService.customPOST(data, 'identity', {}, headers);
             },
 
-            createAccessTokenByIdentityToken: function(data, token, username, lifetime) {
-                var headers;
-                var params = {user: username};
-
-                if (token === '') { // for anonymus user
-                    token = CONFIG.anonymousIdentityToken;
-                }
-
-                headers = {Authorization: 'Bearer ' + token};
-
-                if (lifetime) {
-                    params.lifetime = lifetime;
-                }
-                return tokensService.customPOST(data, 'access', params, headers);
-            },
-
             refreshIdentityToken: function (token, refreshToken) {
                 var headers = {Authorization: 'Bearer ' + token};
                 var data = {

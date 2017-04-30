@@ -7,11 +7,7 @@ angular.module('itest.portal.data.services')
 
         return {
             getTopicsForPublicTests: function () {
-                var params = {
-                    view: 'all'
-                };
-
-                return restService.get(params);
+                return restService.get();
             }
         };
     });

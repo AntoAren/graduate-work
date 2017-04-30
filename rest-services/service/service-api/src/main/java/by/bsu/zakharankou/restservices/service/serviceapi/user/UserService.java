@@ -18,6 +18,8 @@ public interface UserService {
 
     User addUser(UserDetails userDetails);
 
+    User getUser(String username, String password);
+
     User addSelfRegisteredUser(UserDetails userDetails);
 
     /**

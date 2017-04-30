@@ -11,8 +11,6 @@ public class Answer {
     @GeneratedValue
     private Long id;
 
-    private Long testId;
-
     private Long questionId;
 
     private String text;
@@ -40,13 +38,6 @@ public class Answer {
 
     public void setQuestionId(Long questionId) {
         this.questionId = questionId;
-    }
-    public Long getTestId() {
-        return testId;
-    }
-
-    public void setTestId(Long testId) {
-        this.testId = testId;
     }
 
     public void setText(String text) {

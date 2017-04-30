@@ -1,9 +1,0 @@
-{
-    "username": "mockUsername",
-    "displayName": "mockDisplayName",
-    "authorities": [
-        {
-            "name": "ROLE_DEVELOPER"
-        }
-    ]
-}

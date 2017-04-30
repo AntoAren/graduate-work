@@ -3,8 +3,10 @@ package by.bsu.zakharankou.restservices.model.test;
 import by.bsu.zakharankou.restservices.model.question.Question;
 import by.bsu.zakharankou.restservices.model.category.Category;
 import by.bsu.zakharankou.restservices.model.topic.Topic;
+import by.bsu.zakharankou.restservices.model.user.User;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -36,6 +38,12 @@ public class Test {
     private Long passingTime;
 
     private Long numberQuestions;
+
+    private Date creationDate = new Date();
+
+    @ManyToOne
+    @JoinColumn(name = "username")
+    private User author;
 
     public Test() {
     }
@@ -110,5 +118,21 @@ public class Test {
 
     public void setNumberQuestions(Long numberQuestions) {
         this.numberQuestions = numberQuestions;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
     }
 }

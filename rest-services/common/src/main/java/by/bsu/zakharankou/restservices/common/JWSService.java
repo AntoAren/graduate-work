@@ -4,7 +4,6 @@ import by.bsu.zakharankou.restservices.common.JWS.JWSAudience;
 import by.bsu.zakharankou.restservices.common.JWS.JWSHeader;
 import by.bsu.zakharankou.restservices.common.JWS.JWSPayload;
 import by.bsu.zakharankou.restservices.common.JWS.JWSSubject;
-import by.bsu.zakharankou.restservices.common.JWS.NewJWSSubject;
 import by.bsu.zakharankou.restservices.common.JWS.JWSType;
 import by.bsu.zakharankou.restservices.common.JWS.Views;
 
@@ -47,38 +46,10 @@ public class JWSService {
 
     /**
      * Generate a pair of signed access token and appropriate refresh token in JWS format.
-     * @param signature signature which should be used for signing token, it has to be initialized for signing
-     * @param thumbprint thumbprint of X.509 certificate which should be used for verification of token
-     * @param subject token's subject
-     * @param audience token's audience
-     * @param lifetime tokens's lifetime in milliseconds
-     * @return a pair of access token and appropriate refresh token
-     * @throws IOException if I/O exception occurs during generation of token
-     * @throws SignatureException if this signature object is not initialized properly
-     * or if this signature algorithm is unable to process the input data provided.
-     */
-    @Deprecated
-    public TokensPair generateTokensPair(Signature signature, String thumbprint, JWSSubject subject, JWSAudience audience, long lifetime) throws IOException, SignatureException {
-        JWSHeader header = createHeader(signature.getAlgorithm(), thumbprint);
-        JWSPayload payload = createPayload(subject, audience, JWSType.ACCESS_TOKEN, lifetime);
-
-        String accessToken = generateToken(header, payload, signature);
-
-        payload.setTyp(JWSType.ACCESS_REFRESH_TOKEN.getValue());
-        payload.setJti(UUID.randomUUID().toString());
-        String refreshToken = generateToken(header, payload, signature);
-
-        return new TokensPair(accessToken, refreshToken);
-    }
-
-    
-    /**
-     * Generate a pair of signed access token and appropriate refresh token in JWS format.
      * @param jwsType token type to generate
      * @param refreshTokenJwsType related refresh token type
      * @param signature signature which should be used for signing token, it has to be initialized for signing
      * @param thumbprint thumbprint of X.509 certificate which should be used for verification of token
-     * @param subject token's subject
      * @param audience token's audience
      * @param lifetime tokens's lifetime in milliseconds
      * @return a pair of access token and appropriate refresh token
@@ -86,9 +57,9 @@ public class JWSService {
      * @throws SignatureException if this signature object is not initialized properly
      * or if this signature algorithm is unable to process the input data provided.
      */
-    public TokensPair generateTokensPair(JWSType jwsType, JWSType refreshTokenJwsType, Signature signature, String thumbprint, NewJWSSubject subject, JWSAudience audience, long lifetime) throws IOException, SignatureException {
+    public TokensPair generateTokensPair(JWSType jwsType, JWSType refreshTokenJwsType, Signature signature, String thumbprint, JWSAudience audience, long lifetime) throws IOException, SignatureException {
         JWSHeader header = createHeader(signature.getAlgorithm(), thumbprint);
-        JWSPayload payload = createPayload(subject, audience, jwsType, lifetime);
+        JWSPayload payload = createPayload(audience, jwsType, lifetime);
 
         String accessToken = generateToken(header, payload, signature);
 
@@ -97,39 +68,6 @@ public class JWSService {
         String refreshToken = generateToken(header, payload, signature);
 
         return new TokensPair(accessToken, refreshToken);
-    }
-
-    /**
-     * Generate token with {@link JWSType#MASTER_TOKEN} type.
-     * @param signature signature which should be used for signing token, it has to be initialized for signing
-     * @param thumbprint thumbprint of X.509 certificate which should be used for verification of token
-     * @param component name of component for which token should be generated
-     * @param lifetime token's lifetime in milliseconds
-     * @return token
-     * @throws IllegalArgumentException if the specified component is not allowed
-     * @throws IOException if I/O exception occurs during generation of token
-     * @throws SignatureException if this signature object is not initialized properly
-     * or if this signature algorithm is unable to process the input data provided.
-     */
-    public String generateMasterToken(Signature signature, String thumbprint, String component, long lifetime) throws IOException, SignatureException {
-        if (Utils.isBlank(component) || !JWSAudience.ALLOWED_COMPONENTS.contains(component)) {
-            throw new IllegalArgumentException(String.format("The '%s' is not an allowed component.", component));
-        }
-
-        NewJWSSubject subject = new NewJWSSubject() {
-            @Override
-            public String toString() {
-                return NewJWSSubject.TOKENS;
-            }
-        };
-
-        JWS.JWSAudience audience = new JWS.JWSAudience();
-        audience.setComponent(component);
-
-        JWSHeader header = createHeader(signature.getAlgorithm(), thumbprint);
-        JWSPayload payload = createPayload(subject, audience, JWSType.MASTER_TOKEN, lifetime);
-
-        return generateToken(header, payload, signature, Views.MasterToken.class);
     }
 
     /**
@@ -213,24 +151,9 @@ public class JWSService {
         return header;
     }
 
-    private JWSPayload createPayload(NewJWSSubject subject, JWSAudience audience, JWSType type, long lifetime) {
+    private JWSPayload createPayload(JWSAudience audience, JWSType type, long lifetime) {
         JWSPayload payload = new JWSPayload();
         payload.setIss("appsngen");
-        payload.setSub(subject.toString());
-        payload.setIat(Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTimeInMillis());
-        payload.setExp(payload.getIat() + lifetime);
-        payload.setJti(UUID.randomUUID().toString());
-        payload.setAud(audience);
-        payload.setTyp(type.getValue());
-
-        return payload;
-    }
-
-    @Deprecated
-    private JWSPayload createPayload(JWSSubject subject, JWSAudience audience, JWSType type, long lifetime) {
-        JWSPayload payload = new JWSPayload();
-        payload.setIss("appsngen");
-        payload.setSub(subject.toString());
         payload.setIat(Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTimeInMillis());
         payload.setExp(payload.getIat() + lifetime);
         payload.setJti(UUID.randomUUID().toString());

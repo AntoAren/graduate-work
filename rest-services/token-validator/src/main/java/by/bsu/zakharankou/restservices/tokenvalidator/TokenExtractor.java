@@ -37,8 +37,6 @@ public final class TokenExtractor {
 
     private static final String EQUALS_REGEX = "=";
 
-    public static final String ACCESS_TOKEN_PARAM = "accessToken";
-
     public static final String IDENTITY_TOKEN_PARAM = "identityToken";
 
     private TokenExtractor() {
@@ -143,9 +141,7 @@ public final class TokenExtractor {
         String[] queryParts = query.split(AMPERSAND_REGEX);
         for (String part: queryParts) {
             String[] parameter = part.split(EQUALS_REGEX, 2);
-            if (parameter.length == 2 && ACCESS_TOKEN_PARAM.equalsIgnoreCase(parameter[0])) {
-                return parameter[1];
-            } else if (parameter.length == 2 && IDENTITY_TOKEN_PARAM.equalsIgnoreCase(parameter[0])) {
+            if (parameter.length == 2 && IDENTITY_TOKEN_PARAM.equalsIgnoreCase(parameter[0])) {
                 return parameter[1];
             }
         }

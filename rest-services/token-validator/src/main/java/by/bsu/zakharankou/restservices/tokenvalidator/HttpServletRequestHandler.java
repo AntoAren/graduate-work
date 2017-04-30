@@ -16,10 +16,6 @@ import by.bsu.zakharankou.restservices.tokenvalidator.exceptions.InvalidTokenTyp
 public class HttpServletRequestHandler extends RequestHandler<HttpServletRequest> {
 
     public boolean handle(HttpServletRequest request, HttpServletResponse response) {
-        return handle(request, null);
-    }
-
-    public boolean handle(HttpServletRequest request, HttpServletResponse response, String resourceId) {
         String token = TokenExtractor.extractToken(request);
 
         if (Utils.isBlank(token)) {
@@ -33,7 +29,7 @@ public class HttpServletRequestHandler extends RequestHandler<HttpServletRequest
         }
 
         try {
-            tokenValidator.validateToken(token, resourceId);
+            tokenValidator.validateToken(token);
             return true;
         } catch (InvalidTokenTypeException | InvalidScopeException e1) {
             String authHeader = new AuthenticateHeader(TokenType.BEARER.getAuthScheme())

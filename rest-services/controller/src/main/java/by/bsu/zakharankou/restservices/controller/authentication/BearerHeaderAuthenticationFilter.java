@@ -35,9 +35,8 @@ public class BearerHeaderAuthenticationFilter extends AbstractAuthenticationProc
     @Override
     public Authentication attemptAuthentication(final HttpServletRequest request, final HttpServletResponse response)
             throws AuthenticationException, IOException, ServletException {
-        final String serviceName = AuthenticationFilterUtils.getServiceName(request);
 
-        if (requestHandler.handle(request, response, serviceName)) {
+        if (requestHandler.handle(request, response)) {
             final Authentication authentication = createAuthenticationToken(request);
             return this.getAuthenticationManager().authenticate(authentication);
         } else {

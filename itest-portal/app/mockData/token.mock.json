@@ -1,5 +1,0 @@
-{
-    "identityToken": "mockIdentityToken",
-    "refreshToken": "mockRefreshToken",
-    "expiresIn": 86400000
-}

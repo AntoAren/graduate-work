@@ -26,25 +26,12 @@ public class VertxWebSocketHandler {
     /**
      * Handle websocket which should contain access token.
      * Check that websocket contains valid access token.
-     * Expects token which is used for identifying user.
+     * Expects token which is used for accessing resources.
      * Rejects websocket if access token is not valid/presented.
      * @param webSocket websocket which contains access token
      * @return true if websocket contains valid access token, otherwise - false
      */
     public boolean handle(ServerWebSocket webSocket) {
-        return handle(webSocket, null);
-    }
-
-    /**
-     * Handle websocket which should contain access token.
-     * Check that websocket contains valid access token.
-     * Expects token which is used for accessing resources.
-     * Rejects websocket if access token is not valid/presented.
-     * @param webSocket websocket which contains access token
-     * @param resourceId id of resource which is accessed using the access token from the specified websocket
-     * @return true if websocket contains valid access token, otherwise - false
-     */
-    public boolean handle(ServerWebSocket webSocket, String resourceId) {
         String token = TokenExtractor.extractToken(webSocket);
 
         if (Utils.isBlank(token)) {
@@ -54,7 +41,7 @@ public class VertxWebSocketHandler {
         }
 
         try {
-            tokenValidator.validateToken(token, resourceId);
+            tokenValidator.validateToken(token);
         } catch (InvalidTokenException | InvalidTokenTypeException | ExpiredTokenException | InvalidScopeException e) {
             LOGGER.warn("Access token is not valid.", e);
             webSocket.reject();

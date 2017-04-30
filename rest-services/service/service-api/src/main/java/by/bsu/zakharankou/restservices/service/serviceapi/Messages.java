@@ -40,4 +40,10 @@ public class Messages {
     /* Authority messages */
     public static final String ERROR_AUTHORITY_NOT_FOUND = "The role %s is not found.";
     public static final String ERROR_AUTHORITY_NAME_EMPTY = "The role cannot be empty.";
+
+    /* Token messages */
+    public static final String ERROR_BAD_CREDENTIALS = "Bad credentials.";
+
+    /* Authorization messages*/
+    public static final String ERROR_INVALID_USERNAME_PASSWORD = "Invalid username or password.";
 }

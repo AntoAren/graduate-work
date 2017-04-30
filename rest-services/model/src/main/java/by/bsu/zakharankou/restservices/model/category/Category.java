@@ -7,6 +7,8 @@ import javax.persistence.Id;
 @Entity
 public class Category {
 
+    public static final String FIELD_NAME = "name";
+
     @Id
     @GeneratedValue
     private Long id;

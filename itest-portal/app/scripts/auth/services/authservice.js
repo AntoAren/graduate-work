@@ -11,10 +11,6 @@ angular.module('itest.portal.auth.services')
         return {
             authenticate: function (user) {
                 return tokenService.createIdentityToken(user.username, user.password, identityData);
-            },
-            authenticateAnonymousUser: function (username) {
-                return tokenService.createAccessTokenByIdentityToken(identityData,
-                    authSession.getIdentityToken(), username, null);
             }
         };
     });

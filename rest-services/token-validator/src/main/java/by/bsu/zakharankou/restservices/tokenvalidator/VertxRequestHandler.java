@@ -22,25 +22,12 @@ public class VertxRequestHandler extends RequestHandler<HttpServerRequest> {
     /**
      * Handle http request which should contain access token.
      * Check that request contains valid access token.
-     * Expects token which is used for identifying user.
+     * Expects token which is used for accessing resources.
      * Ends response with appropriate error status code if access token is not valid/presented.
      * @param request request which contains access token
      * @return true if request contains valid access token, otherwise - false
      */
     public boolean handle(HttpServerRequest request) {
-        return handle(request, null);
-    }
-
-    /**
-     * Handle http request which should contain access token.
-     * Check that request contains valid access token.
-     * Expects token which is used for accessing resources.
-     * Ends response with appropriate error status code if access token is not valid/presented.
-     * @param request request which contains access token
-     * @param resourceId id of resource which is accessed using the access token from the specified request
-     * @return true if request contains valid access token, otherwise - false
-     */
-    public boolean handle(HttpServerRequest request, String resourceId) {
         HttpServerResponse response = getResponse(request);
         String token = TokenExtractor.extractToken(request);
 
@@ -55,7 +42,7 @@ public class VertxRequestHandler extends RequestHandler<HttpServerRequest> {
         }
 
         try {
-            tokenValidator.validateToken(token, resourceId);
+            tokenValidator.validateToken(token);
             return true;
         } catch (InvalidTokenTypeException | InvalidScopeException e1) {
             String authHeader = new AuthenticateHeader(TokenType.BEARER.getAuthScheme())

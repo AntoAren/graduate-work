@@ -2,7 +2,6 @@ package by.bsu.zakharankou.restservices.tokenvalidator;
 
 import by.bsu.zakharankou.restservices.common.JWS;
 import by.bsu.zakharankou.restservices.common.JWS.JWSType;
-import by.bsu.zakharankou.restservices.common.JWS.NewJWSSubject;
 import by.bsu.zakharankou.restservices.common.JWSService;
 import by.bsu.zakharankou.restservices.common.TokenFormatException;
 import by.bsu.zakharankou.restservices.common.Utils;
@@ -78,22 +77,18 @@ public class TokenValidator {
      * - scope of token is suitable for accessing the specified resource
      * - token is valid
      * @param token access token to validate
-     * @param resourceId id of resource which is accessed using the specified access token
      * @return token in JWS format
      * @throws InvalidTokenException when token is not valid
      * @throws InvalidScopeException when scope of token is not suitable for accessing resources
      * @throws ExpiredTokenException when token is expired
      * @throws InvalidTokenTypeException when type of token is not valid
      */
-    public JWS validateToken(String token, String resourceId) {
+    public JWS validateToken(String token) {
         JWS jws = parse(token);
-        JWSType expectedTokenType = resourceId == null ? JWSType.IDENTITY_TOKEN : JWSType.ACCESS_TOKEN;
+        JWSType expectedTokenType = JWSType.IDENTITY_TOKEN;
 
         validateType(jws, expectedTokenType);
         validateExpiration(jws);
-        if (expectedTokenType == JWSType.ACCESS_TOKEN) {
-            validateScope(jws, resourceId);
-        }
         validateSignature(token, jws.getHeader().getX5t());
 
         return jws;
@@ -101,7 +96,7 @@ public class TokenValidator {
 
     /**
      * Validate identity token represented in JWS (JSON Web Signature) format.
-     * Uses {@link #validateToken(String, String)} method.
+     * Uses {@link #validateToken(String)} method.
      * @param token identity token to validate
      * @return {@link JWS} token
      * @throws InvalidTokenException when token is not valid
@@ -109,23 +104,7 @@ public class TokenValidator {
      * @throws InvalidTokenTypeException when type of token is not valid
      */
     public JWS validateIdentityToken(String token) {
-        return this.validateToken(token, null);
-    }
-
-    /**
-     * Validate access refresh token represented in JWS (JSON Web Signature) format.
-     * Checks that:
-     * - token has correct type and can be used for refreshing access token
-     * - token is not expired
-     * - token is valid
-     * @param token access refresh token to validate
-     * @return token in JWS format
-     * @throws InvalidTokenException when token is not valid
-     * @throws ExpiredTokenException when token is expired
-     * @throws InvalidTokenTypeException when type of token is not valid
-     */
-    public JWS validateAccessRefreshToken(String token) {
-        return validateRefreshToken(token, JWSType.ACCESS_REFRESH_TOKEN);
+        return this.validateToken(token);
     }
 
     /**
@@ -144,28 +123,8 @@ public class TokenValidator {
         return validateRefreshToken(token, JWSType.IDENTITY_REFRESH_TOKEN);
     }
 
-    public JWS validateMasterToken(String token) {
-        JWS jws = parse(token);
-
-        validateType(jws, JWSType.MASTER_TOKEN);
-        validateExpiration(jws);
-
-        if (!NewJWSSubject.TOKENS.equalsIgnoreCase(jws.getPayload().getSub())) {
-            throw new InvalidScopeException("Scope of master token is not valid.");
-        }
-
-        String component = jws.getPayload().getAud().getComponent();
-        if (!JWS.JWSAudience.ALLOWED_COMPONENTS.contains(component)) {
-            throw new InvalidTokenException(String.format("The '%s' is not an allowed component.", component));
-        }
-
-        validateSignature(token, jws.getHeader().getX5t());
-
-        return jws;
-    }
-
     private JWS validateRefreshToken(String token, JWSType type) {
-        if (JWSType.ACCESS_REFRESH_TOKEN != type && JWSType.IDENTITY_REFRESH_TOKEN != type) {
+        if (JWSType.IDENTITY_REFRESH_TOKEN != type) {
             throw new IllegalArgumentException(String.format("Specified token's type is not a 'refresh' type: %s", type));
         }
 
@@ -203,14 +162,6 @@ public class TokenValidator {
 
         if (jws.getPayload().getExp() < currentTime) {
             throw new ExpiredTokenException("Token expired.");
-        }
-    }
-
-    private void validateScope(JWS jws, String resourceId) {
-        NewJWSSubject subject = NewJWSSubject.parse(jws.getPayload().getSub());
-
-        if (!subject.containsResource(resourceId)) {
-            throw new InvalidScopeException("Scope of access token not suitable for accessing specified resource.");
         }
     }
 

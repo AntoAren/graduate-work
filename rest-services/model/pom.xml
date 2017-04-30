@@ -15,4 +15,12 @@
     <name>Model</name>
     <packaging>jar</packaging>
 
+    <dependencies>
+        <dependency>
+            <groupId>by.bsu.zakharankou.rest-services</groupId>
+            <artifactId>common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
 </project>
