@@ -42,7 +42,7 @@ public class Test {
     private Date creationDate = new Date();
 
     @ManyToOne
-    @JoinColumn(name = "username")
+    @JoinColumn(name = "author")
     private User author;
 
     public Test() {

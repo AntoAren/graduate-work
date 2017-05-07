@@ -11,8 +11,10 @@
 
     <!-- until migration process is not finished need to specify jpa repositories -->
     <jpa:repositories entity-manager-factory-ref="itestEntityManagerFactory" transaction-manager-ref="itestTransactionManager"
-                      base-package="by.bsu.zakharankou.restservices.repository.authority,
+                      base-package="by.bsu.zakharankou.restservices.repository.answer,
+                                    by.bsu.zakharankou.restservices.repository.authority,
                                     by.bsu.zakharankou.restservices.repository.category,
+                                    by.bsu.zakharankou.restservices.repository.question,
                                     by.bsu.zakharankou.restservices.repository.test,
                                     by.bsu.zakharankou.restservices.repository.topic,
                                     by.bsu.zakharankou.restservices.repository.user">

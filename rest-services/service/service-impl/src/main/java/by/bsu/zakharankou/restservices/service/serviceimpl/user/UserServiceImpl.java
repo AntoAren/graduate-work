@@ -10,6 +10,7 @@ import by.bsu.zakharankou.restservices.service.serviceapi.user.UserService;
 import by.bsu.zakharankou.restservices.service.serviceimpl.transaction.ReadOnlyTransactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -68,7 +69,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String getAuthenticatedUser() {
-        return null;
+        return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
     @Override

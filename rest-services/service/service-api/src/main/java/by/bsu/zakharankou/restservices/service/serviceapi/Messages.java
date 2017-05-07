@@ -46,4 +46,7 @@ public class Messages {
 
     /* Authorization messages*/
     public static final String ERROR_INVALID_USERNAME_PASSWORD = "Invalid username or password.";
+
+    /* Test messages */
+    public static final String INFO_TEST_HAS_BEEN_ADDED = "Test %s has been successfully added.";
 }
