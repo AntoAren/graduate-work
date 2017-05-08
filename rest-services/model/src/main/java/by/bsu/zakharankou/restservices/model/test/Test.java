@@ -41,6 +41,8 @@ public class Test {
 
     private Date creationDate = new Date();
 
+    private Date deadline;
+
     @ManyToOne
     @JoinColumn(name = "author")
     private User author;
@@ -134,5 +136,13 @@ public class Test {
 
     public void setAuthor(User author) {
         this.author = author;
+    }
+
+    public Date getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(Date deadline) {
+        this.deadline = deadline;
     }
 }

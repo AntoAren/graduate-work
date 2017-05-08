@@ -1,8 +1,7 @@
 package by.bsu.zakharankou.restservices.service.serviceapi.test;
 
 import by.bsu.zakharankou.restservices.model.test.Test;
-import by.bsu.zakharankou.restservices.model.test.views.AllTestsView;
-import by.bsu.zakharankou.restservices.model.test.views.TestForPassingView;
+import by.bsu.zakharankou.restservices.model.test.views.*;
 
 import org.springframework.data.domain.Pageable;
 
@@ -13,7 +12,13 @@ public interface TestService {
 
     List<AllTestsView> getTestsForAllTestsPage(Long categoryId, Long topicId, String search, Pageable pageable);
 
+    List<AssignedToMeView> getTestsForAssignedToMePage(Long categoryId, Long topicId, String search, Pageable pageable);
+
+    List<CreatedByMeView> getTestsForCreatedByMePage(Long categoryId, Long topicId, String search, Pageable pageable);
+
     TestForPassingView getTestForPassing(Long testId);
 
     Test createTest(Map<String, Object> details);
+
+    AllTestsPreviewView getPreviewInfoForAllTestsPage(Long testId);
 }

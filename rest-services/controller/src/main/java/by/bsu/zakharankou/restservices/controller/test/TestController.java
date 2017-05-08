@@ -2,8 +2,7 @@ package by.bsu.zakharankou.restservices.controller.test;
 
 import by.bsu.zakharankou.restservices.controller.util.JsonResponseEntityFactory;
 import by.bsu.zakharankou.restservices.controller.util.ObjectMapper;
-import by.bsu.zakharankou.restservices.model.test.views.AllTestsView;
-import by.bsu.zakharankou.restservices.model.test.views.TestForPassingView;
+import by.bsu.zakharankou.restservices.model.test.views.*;
 import by.bsu.zakharankou.restservices.controller.util.Paging;
 import by.bsu.zakharankou.restservices.controller.util.SortBuilder;
 import by.bsu.zakharankou.restservices.controller.view.ListView;
@@ -28,18 +27,17 @@ import java.util.Map;
 @RequestMapping("/tests")
 public class TestController {
 
-    @Autowired
     private TestService testService;
 
-    @Autowired
     private JsonResponseEntityFactory jsonResponseEntityFactory;
 
     @Autowired
-    public TestController(TestService testService) {
+    public TestController(TestService testService, JsonResponseEntityFactory jsonResponseEntityFactory) {
         this.testService = testService;
+        this.jsonResponseEntityFactory = jsonResponseEntityFactory;
     }
 
-    @RequestMapping(value = "/all-tests", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "", params = "view=allTests", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ListView<AllTestsView> getTestsForAllTestsPage(@RequestParam(required = false) String category,
                                                           @RequestParam(required = false) String topic,
@@ -70,5 +68,51 @@ public class TestController {
         Map<String, Object> details = ObjectMapper.read(body);
         Test test = testService.createTest(details);
         return jsonResponseEntityFactory.createMessageResponse(String.format(Messages.INFO_TEST_HAS_BEEN_ADDED, test.getName()), HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "", params = "view=assignedToMe", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ListView<AssignedToMeView> getTestsForAssignedToMePage(@RequestParam(required = false) String category,
+                                                                  @RequestParam(required = false) String topic,
+                                                                  @RequestParam(required = false) String search,
+                                                                  @RequestParam(required = false) String sort,
+                                                                  @RequestParam(required = false) String offset,
+                                                                  @RequestParam(required = false) String max,
+                                                                  @RequestParam(required = false) String order) {
+        Sort sorting = new SortBuilder(Test.class, Test.FIELD_NAME).desc().sort(sort, order).build();
+        Pageable pageable = Paging.createPageable(offset, max, sorting);
+        Long categoryId = StringUtil.getIdFromString(category);
+        Long topicId = StringUtil.getIdFromString(topic);
+
+        List<AssignedToMeView> assignedToMeViewList = testService.getTestsForAssignedToMePage(categoryId, topicId, search, pageable);
+
+        return new ListView<>(assignedToMeViewList, assignedToMeViewList.size(), sorting);
+    }
+
+    @RequestMapping(value = "", params = "view=createdByMe", method = RequestMethod.GET,  produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ListView<CreatedByMeView> getTestsForCreatedByMePage(@RequestParam(required = false) String category,
+                                                                @RequestParam(required = false) String topic,
+                                                                @RequestParam(required = false) String search,
+                                                                @RequestParam(required = false) String sort,
+                                                                @RequestParam(required = false) String offset,
+                                                                @RequestParam(required = false) String max,
+                                                                @RequestParam(required = false) String order) {
+        Sort sorting = new SortBuilder(Test.class, Test.FIELD_NAME).desc().sort(sort, order).build();
+        Pageable pageable = Paging.createPageable(offset, max, sorting);
+        Long categoryId = StringUtil.getIdFromString(category);
+        Long topicId = StringUtil.getIdFromString(topic);
+
+        List<CreatedByMeView> createdByMeViewList = testService.getTestsForCreatedByMePage(categoryId, topicId, search, pageable);
+
+        return new ListView<>(createdByMeViewList, createdByMeViewList.size(), sorting);
+    }
+
+    @RequestMapping(value = "/preview/{testId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public AllTestsPreviewView getPreviewInfoForAllTestsPage(@PathVariable String testId) {
+        Long previewTestId = StringUtil.getIdFromString(testId);
+
+        return testService.getPreviewInfoForAllTestsPage(previewTestId);
     }
 }

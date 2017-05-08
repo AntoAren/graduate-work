@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.util.Date;
 
-public class AllTestsView {
+public class CreatedByMeView {
 
     private Long id;
     private String name;
@@ -14,7 +14,7 @@ public class AllTestsView {
     private String topic;
     private Date creationDate;
 
-    public AllTestsView(Test test) {
+    public CreatedByMeView(Test test) {
         this.id = test.getId();
         this.name = test.getName();
         this.category = test.getCategory().getName();

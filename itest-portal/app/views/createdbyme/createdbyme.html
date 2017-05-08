@@ -31,7 +31,7 @@
         <ul class="sandbox-content">
             <created-by-me-action-plate></created-by-me-action-plate>
             <li class="plate" ng-repeat="plate in tests" status="{{status}}">
-                <my-results-plate></my-results-plate>
+                <created-by-me-plate></created-by-me-plate>
             </li>
             <div ng-hide="!hasMore" disable-if="hasMore" class="waiting-container" ng-class="{'first-time': firstTime}"></div>
         </ul>

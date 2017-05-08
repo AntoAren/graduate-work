@@ -6,20 +6,20 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.util.Date;
 
-public class AllTestsView {
+public class AssignedToMeView {
 
     private Long id;
     private String name;
     private String category;
     private String topic;
-    private Date creationDate;
+    private Date deadline;
 
-    public AllTestsView(Test test) {
+    public AssignedToMeView(Test test) {
         this.id = test.getId();
         this.name = test.getName();
         this.category = test.getCategory().getName();
         this.topic = test.getTopic().getName();
-        this.creationDate = test.getCreationDate();
+        this.deadline = test.getDeadline();
     }
 
     public Long getId() {
@@ -39,7 +39,7 @@ public class AllTestsView {
     }
 
     @JsonSerialize(using = JsonDateSerializer.class)
-    public Date getCreationDate() {
-        return creationDate;
+    public Date getDeadline() {
+        return deadline;
     }
 }
