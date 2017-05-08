@@ -167,7 +167,7 @@ public class TestServiceImpl implements TestService {
             answer = new Answer();
             answer.setQuestionId(questionId);
             answer.setText((String)answerDetail.get(TEST_FIELD_ANSWER_TEXT));
-            answer.setCorrect(Boolean.parseBoolean((String)answerDetail.get(TEST_FIELD_ANSWER_CORRECT)));
+            answer.setCorrect((Boolean)answerDetail.get(TEST_FIELD_ANSWER_CORRECT));
 
             answerRepository.save(answer);
 
