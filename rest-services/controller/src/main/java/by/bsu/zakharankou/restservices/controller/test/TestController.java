@@ -109,6 +109,25 @@ public class TestController {
         return new ListView<>(createdByMeViewList, createdByMeViewList.size(), sorting);
     }
 
+    @RequestMapping(value = "", params = "view=myResults", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ListView<MyResultsView> getTestsForMyResultsPage(@RequestParam(required = false) String category,
+                                                            @RequestParam(required = false) String topic,
+                                                            @RequestParam(required = false) String search,
+                                                            @RequestParam(required = false) String sort,
+                                                            @RequestParam(required = false) String offset,
+                                                            @RequestParam(required = false) String max,
+                                                            @RequestParam(required = false) String order) {
+        Sort sorting = new SortBuilder(Test.class, Test.FIELD_NAME).desc().sort(sort, order).build();
+        Pageable pageable = Paging.createPageable(offset, max, sorting);
+        Long categoryId = StringUtil.getIdFromString(category);
+        Long topicId = StringUtil.getIdFromString(topic);
+
+        List<MyResultsView> myResultsViewList = testService.getTestsForMyResultsPage(categoryId, topicId, search, pageable);
+
+        return new ListView<>(myResultsViewList, myResultsViewList.size(), sorting);
+    }
+
     @RequestMapping(value = "/preview/{testId}", params = "view=allTests", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public AllTestsPreviewView getPreviewInfoForAllTestsPage(@PathVariable String testId) {
@@ -125,6 +144,14 @@ public class TestController {
         return testService.getPreviewInfoForAssignedToMePage(previewTestId);
     }
 
+    @RequestMapping(value = "/preview/{testId}", params = "view=myResults", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public MyResultsPreviewView getPreviewInfoForMyResultsPage(@PathVariable String testId) {
+        Long previewTestId = StringUtil.getIdFromString(testId);
+
+        return testService.getPreviewInfoForMyResultsPage(previewTestId);
+    }
+
     @RequestMapping(value = "/add/{testId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<String> assignTestToMe(@PathVariable String testId) {
@@ -132,6 +159,6 @@ public class TestController {
 
         testService.assignTestToMe(testIdToAssign);
 
-        return jsonResponseEntityFactory.createMessageResponse(String.format(Messages.INFO_TEST_HAS_BEEN_ASSIGNED), HttpStatus.CREATED);
+        return jsonResponseEntityFactory.createMessageResponse(Messages.INFO_TEST_HAS_BEEN_ASSIGNED, HttpStatus.CREATED);
     }
 }

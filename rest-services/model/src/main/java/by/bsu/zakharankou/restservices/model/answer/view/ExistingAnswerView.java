@@ -2,7 +2,7 @@ package by.bsu.zakharankou.restservices.model.answer.view;
 
 import java.util.Set;
 
-public class ExistingAnswer {
+public class ExistingAnswerView {
 
     private Long questionId;
     private Set<Long> answerIds;

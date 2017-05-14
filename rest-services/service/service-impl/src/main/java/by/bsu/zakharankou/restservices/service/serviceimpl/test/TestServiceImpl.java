@@ -3,6 +3,7 @@ package by.bsu.zakharankou.restservices.service.serviceimpl.test;
 import by.bsu.zakharankou.restservices.model.answer.Answer;
 import by.bsu.zakharankou.restservices.model.category.Category;
 import by.bsu.zakharankou.restservices.model.question.Question;
+import by.bsu.zakharankou.restservices.model.result.Result;
 import by.bsu.zakharankou.restservices.model.test.Test;
 import by.bsu.zakharankou.restservices.model.test.views.*;
 import by.bsu.zakharankou.restservices.model.testassignment.TestAssignment;
@@ -11,6 +12,7 @@ import by.bsu.zakharankou.restservices.model.user.User;
 import by.bsu.zakharankou.restservices.repository.answer.AnswerRepository;
 import by.bsu.zakharankou.restservices.repository.category.CategoryRepository;
 import by.bsu.zakharankou.restservices.repository.question.QuestionRepository;
+import by.bsu.zakharankou.restservices.repository.result.ResultRepository;
 import by.bsu.zakharankou.restservices.repository.test.TestRepository;
 import by.bsu.zakharankou.restservices.repository.testassignment.TestAssignmentRepository;
 import by.bsu.zakharankou.restservices.repository.topic.TopicRepository;
@@ -64,10 +66,13 @@ public class TestServiceImpl implements TestService {
 
     private TestAssignmentRepository testAssignmentRepository;
 
+    private ResultRepository resultRepository;
+
     @Autowired
     public TestServiceImpl(CategoryRepository categoryRepository, TopicRepository topicRepository,
                            TestRepository testRepository, UserService userService, QuestionRepository questionRepository,
-                           AnswerRepository answerRepository, TestAssignmentRepository testAssignmentRepository) {
+                           AnswerRepository answerRepository, TestAssignmentRepository testAssignmentRepository,
+                           ResultRepository resultRepository) {
         this.categoryRepository = categoryRepository;
         this.topicRepository = topicRepository;
         this.testRepository = testRepository;
@@ -75,6 +80,7 @@ public class TestServiceImpl implements TestService {
         this.questionRepository = questionRepository;
         this.answerRepository = answerRepository;
         this.testAssignmentRepository = testAssignmentRepository;
+        this.resultRepository = resultRepository;
     }
 
     @Override
@@ -133,25 +139,9 @@ public class TestServiceImpl implements TestService {
             preparedSearch = search.toLowerCase().trim();
         }
 
-        List<Long> ids = getTestIds(testAssignmentRepository.findByUser(user));
+        List<Long> ids = getTestIdsFromTestAssignments(testAssignmentRepository.findByUser(user));
 
-        if (category != null && topic != null && preparedSearch != null) {
-            page = testRepository.findByCategoryAndTopicAndNameAndIdIn(category, topic, preparedSearch, ids, pageable);
-        } else if (category != null && topic != null) {
-            page = testRepository.findByCategoryAndTopicAndIdIn(category, topic, ids, pageable);
-        } else if (category != null && preparedSearch != null) {
-            page = testRepository.findByCategoryAndNameAndIdIn(category, preparedSearch, ids, pageable);
-        } else if (topic != null && preparedSearch != null) {
-            page = testRepository.findByTopicAndNameAndIdIn(topic, preparedSearch, ids, pageable);
-        } else if (category != null) {
-            page = testRepository.findByCategoryAndIdIn(category, ids, pageable);
-        } else if (topic != null) {
-            page = testRepository.findByTopicAndIdIn(topic, ids, pageable);
-        } else if (preparedSearch != null) {
-            page = testRepository.findByNameAndIdIn(preparedSearch, ids, pageable);
-        } else {
-            page = testRepository.findByIdIn(ids, pageable);
-        }
+        page = getPageByCategoryAndTopicAndSearchAndIdIn(category, topic, preparedSearch, ids, pageable);
 
         return ViewBuilder.build(page.getContent(), AssignedToMeView.class, Test.class);
     }
@@ -196,6 +186,33 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
+    public List<MyResultsView> getTestsForMyResultsPage(Long categoryId, Long topicId, String search, Pageable pageable) {
+        Page<Test> page;
+        Category category = null;
+        Topic topic = null;
+        String preparedSearch = null;
+        User user = userService.getUser(userService.getAuthenticatedUser());
+
+        if (categoryId != null) {
+            category = categoryRepository.findOne(categoryId);
+        }
+        if (topicId != null) {
+            topic = topicRepository.findOne(topicId);
+        }
+        if (hasText(search)) {
+            preparedSearch = search.toLowerCase().trim();
+        }
+
+        List<Result> results = resultRepository.findByUser(user);
+
+        List<Long> ids = getTestIdsFromResults(results);
+
+        page = getPageByCategoryAndTopicAndSearchAndIdIn(category, topic, preparedSearch, ids, pageable);
+
+        return ViewBuilder.build(page.getContent(), MyResultsView.class, Test.class);
+    }
+
+    @Override
     public TestForPassingView getTestForPassing(Long testId) {
         Test test = testRepository.findOne(testId);
 
@@ -237,6 +254,11 @@ public class TestServiceImpl implements TestService {
         assignedToMePreviewView.setAverageScore(50L);
 
         return assignedToMePreviewView;
+    }
+
+    @Override
+    public MyResultsPreviewView getPreviewInfoForMyResultsPage(Long testId) {
+        return null;
     }
 
     @Override
@@ -312,7 +334,7 @@ public class TestServiceImpl implements TestService {
         return answers;
     }
 
-    private List<Long> getTestIds(List<TestAssignment> testAssignments) {
+    private List<Long> getTestIdsFromTestAssignments(List<TestAssignment> testAssignments) {
         List<Long> testIds = new ArrayList<>();
 
         for (TestAssignment testAssignment : testAssignments) {
@@ -320,5 +342,38 @@ public class TestServiceImpl implements TestService {
         }
 
         return testIds;
+    }
+
+    private List<Long> getTestIdsFromResults(List<Result> results) {
+        List<Long> testIds = new ArrayList<>();
+
+        for (Result result : results) {
+            testIds.add(result.getTest().getId());
+        }
+
+        return testIds;
+    }
+
+    private Page<Test> getPageByCategoryAndTopicAndSearchAndIdIn(Category category, Topic topic, String preparedSearch, List<Long> ids, Pageable pageable) {
+        Page<Test> page;
+        if (category != null && topic != null && preparedSearch != null) {
+            page = testRepository.findByCategoryAndTopicAndNameAndIdIn(category, topic, preparedSearch, ids, pageable);
+        } else if (category != null && topic != null) {
+            page = testRepository.findByCategoryAndTopicAndIdIn(category, topic, ids, pageable);
+        } else if (category != null && preparedSearch != null) {
+            page = testRepository.findByCategoryAndNameAndIdIn(category, preparedSearch, ids, pageable);
+        } else if (topic != null && preparedSearch != null) {
+            page = testRepository.findByTopicAndNameAndIdIn(topic, preparedSearch, ids, pageable);
+        } else if (category != null) {
+            page = testRepository.findByCategoryAndIdIn(category, ids, pageable);
+        } else if (topic != null) {
+            page = testRepository.findByTopicAndIdIn(topic, ids, pageable);
+        } else if (preparedSearch != null) {
+            page = testRepository.findByNameAndIdIn(preparedSearch, ids, pageable);
+        } else {
+            page = testRepository.findByIdIn(ids, pageable);
+        }
+
+        return page;
     }
 }

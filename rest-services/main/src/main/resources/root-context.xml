@@ -15,6 +15,7 @@
                                     by.bsu.zakharankou.restservices.repository.authority,
                                     by.bsu.zakharankou.restservices.repository.category,
                                     by.bsu.zakharankou.restservices.repository.question,
+                                    by.bsu.zakharankou.restservices.repository.record,
                                     by.bsu.zakharankou.restservices.repository.test,
                                     by.bsu.zakharankou.restservices.repository.testassignment,
                                     by.bsu.zakharankou.restservices.repository.topic,

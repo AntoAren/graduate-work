@@ -50,4 +50,7 @@ public class Messages {
     /* Test messages */
     public static final String INFO_TEST_HAS_BEEN_ADDED = "Тест %s был успешно создан.";
     public static final String INFO_TEST_HAS_BEEN_ASSIGNED = "Тест был успешно назначен.";
+
+    /* Answer messages */
+    public static final String INFO_ANSWERS_HAVE_BEEN_SAVED = "Ответы были успешно сохранены.";
 }

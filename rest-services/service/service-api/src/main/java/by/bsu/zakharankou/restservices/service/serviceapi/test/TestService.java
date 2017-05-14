@@ -16,6 +16,8 @@ public interface TestService {
 
     List<CreatedByMeView> getTestsForCreatedByMePage(Long categoryId, Long topicId, String search, Pageable pageable);
 
+    List<MyResultsView> getTestsForMyResultsPage(Long categoryId, Long topicId, String search, Pageable pageable);
+
     TestForPassingView getTestForPassing(Long testId);
 
     Test createTest(Map<String, Object> details);
@@ -23,6 +25,8 @@ public interface TestService {
     AllTestsPreviewView getPreviewInfoForAllTestsPage(Long testId);
 
     AssignedToMePreviewView getPreviewInfoForAssignedToMePage(Long testId);
+
+    MyResultsPreviewView getPreviewInfoForMyResultsPage(Long testId);
 
     void assignTestToMe(Long testId);
 }
