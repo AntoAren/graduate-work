@@ -1,15 +1,20 @@
 package by.bsu.zakharankou.restservices.model.test.views;
 
+import by.bsu.zakharankou.restservices.model.JsonDateSerializer;
 import by.bsu.zakharankou.restservices.model.question.Question;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 public class TestForPassingView {
 
     private Long id;
     private String name;
-    private Set<Question> questions;
-    private Long passingTime;
+    private List<Question> questions;
+    private Date startedAt;
+    private Long testDuration;
 
     public Long getId() {
         return id;
@@ -27,19 +32,29 @@ public class TestForPassingView {
         this.name = name;
     }
 
-    public Set<Question> getQuestions() {
+    public List<Question> getQuestions() {
         return questions;
     }
 
-    public void setQuestions(Set<Question> questions) {
+    public void setQuestions(List<Question> questions) {
         this.questions = questions;
     }
 
-    public Long getPassingTime() {
-        return passingTime;
+    public Long getTestDuration() {
+        return testDuration;
     }
 
-    public void setPassingTime(Long passingTime) {
-        this.passingTime = passingTime;
+    public void setTestDuration(Long testDuration) {
+        this.testDuration = testDuration;
     }
+
+    public Date getStartedAt() {
+        return startedAt;
+    }
+
+    @JsonSerialize(using = JsonDateSerializer.class)
+    public void setStartedAt(Date startedAt) {
+        this.startedAt = startedAt;
+    }
+
 }

@@ -197,19 +197,21 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public TestForPassingView getTestForPassing(Long testId) {
-        Test test = testRepository.getOne(testId);
+        Test test = testRepository.findOne(testId);
 
         TestForPassingView testForPassingView = new TestForPassingView();
         testForPassingView.setId(test.getId());
         testForPassingView.setName(test.getName());
-        testForPassingView.setQuestions(TestUtils.getRandomlyQuestions(test.getQuestions()));
-        testForPassingView.setPassingTime(test.getPassingTime());
+        testForPassingView.setQuestions(TestUtils.getRandomlyQuestions(test.getQuestions(), test.getNumberQuestions()));
+        testForPassingView.setTestDuration(test.getPassingTime());
+        testForPassingView.setStartedAt(new Date());
 
         return testForPassingView;
     }
 
     @Override
     public AllTestsPreviewView getPreviewInfoForAllTestsPage(Long testId) {
+        // TODO: check whether user has access
         Test test = testRepository.findOne(testId);
         AllTestsPreviewView allTestsPreviewView = new AllTestsPreviewView(test);
 
@@ -219,9 +221,22 @@ public class TestServiceImpl implements TestService {
             allTestsPreviewView.setAdded(true);
         }
 
+        // TODO: calculate average score correctly
         allTestsPreviewView.setAverageScore(50L);
 
         return allTestsPreviewView;
+    }
+
+    @Override
+    public AssignedToMePreviewView getPreviewInfoForAssignedToMePage(Long testId) {
+        // TODO: check whether user has access
+        Test test = testRepository.findOne(testId);
+        AssignedToMePreviewView assignedToMePreviewView = new AssignedToMePreviewView(test);
+
+        // TODO: calculate average score correctly
+        assignedToMePreviewView.setAverageScore(50L);
+
+        return assignedToMePreviewView;
     }
 
     @Override
@@ -245,6 +260,18 @@ public class TestServiceImpl implements TestService {
         testRepository.save(test);
 
         return test;
+    }
+
+    @Override
+    public void assignTestToMe(Long testId) {
+        User user = userService.getUser(userService.getAuthenticatedUser());
+        Test test = testRepository.findOne(testId);
+
+        TestAssignment testAssignment = new TestAssignment();
+        testAssignment.setTest(test);
+        testAssignment.setUser(user);
+
+        testAssignmentRepository.save(testAssignment);
     }
 
     private Set<Question> createQuestions(List<Map<String, Object>> questionDetails, Long testId) {

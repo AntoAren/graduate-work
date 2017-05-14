@@ -21,4 +21,8 @@ public interface TestService {
     Test createTest(Map<String, Object> details);
 
     AllTestsPreviewView getPreviewInfoForAllTestsPage(Long testId);
+
+    AssignedToMePreviewView getPreviewInfoForAssignedToMePage(Long testId);
+
+    void assignTestToMe(Long testId);
 }

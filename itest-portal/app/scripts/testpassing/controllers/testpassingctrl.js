@@ -38,13 +38,13 @@ angular.module('itest.portal.testpassing.controllers')
             testService.getTestForPassing($stateParams.testId).then(function (response) {
                 $scope.test = response;
                 $scope.activeQuestion = $scope.test.questions[0];
-                getAnswers();
+                getExistingAnswers();
             }, function () {
 
             });
         };
 
-        var getAnswers = function () {
+        var getExistingAnswers = function () {
             answerService.getAnswers($stateParams.testId).then(function (response) {
                 $scope.answers = response.list;
                 matchAnswersToQuestions();
@@ -69,7 +69,7 @@ angular.module('itest.portal.testpassing.controllers')
                 });
                 results.push(result);
             });
-            return results;
+            return {records: results};
         };
 
         $scope.hasPreviousQuestion = function () {
@@ -132,7 +132,7 @@ angular.module('itest.portal.testpassing.controllers')
                     questionStatus.hasAnswer = hasAnswer;
                 }
             });
-            answerService.submitAnswer($scope.test.id, questionId, answerId).then(function (response) {
+            answerService.submitAnswer($scope.test.id, getAnswers()).then(function (response) {
 
             });
         };
