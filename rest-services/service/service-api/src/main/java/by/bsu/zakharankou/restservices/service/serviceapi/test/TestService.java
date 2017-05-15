@@ -29,4 +29,10 @@ public interface TestService {
     MyResultsPreviewView getPreviewInfoForMyResultsPage(Long testId);
 
     void assignTestToMe(Long testId);
+
+    void completeTest(Long testId, Map<String, Object> details);
+
+    EditTestView getTestForEditing(Long testId);
+
+    Test editTest(Long testId, Map<String, Object> details);
 }

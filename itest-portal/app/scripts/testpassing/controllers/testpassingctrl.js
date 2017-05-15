@@ -2,7 +2,7 @@
 
 angular.module('itest.portal.testpassing.controllers')
 
-    .controller('TestPassingCtrl', function ($scope, testService, $stateParams, answerService, orderDialog, notifier) {
+    .controller('TestPassingCtrl', function ($scope, testService, $stateParams, answerService, orderDialog, notifier, $state) {
         var matchAnswersToQuestions = function () {
             $.each($scope.answers, function (answerIndex, answer) {
                 $.each($scope.test.questions, function (questionIndex, question) {
@@ -144,8 +144,9 @@ angular.module('itest.portal.testpassing.controllers')
             orderDialog.open($scope.test, header, text).then(function() {
                 $scope.orderProcessing = true;
 
-                testService.completeTest(getAnswers()).then(function () {
+                testService.completeTest($scope.test.id, getAnswers()).then(function () {
                     notifier.success('Тест был успешно завершен.');
+                    $state.go('myresults');
                 }).finally(function() {
                     $scope.orderProcessing = false;
                 });

@@ -15,64 +15,86 @@ import java.util.Collection;
 @Repository
 public interface TestRepository extends JpaRepository<Test, Long> {
 
-    Page<Test> findByCategoryAndTopicAndNameAndPrivateTestFalse(@Param("category") Category category,
+    Page<Test> findByCategoryAndTopicAndNameAndPrivateTestFalseAndActiveTrue(@Param("category") Category category,
                                                                 @Param("topic") Topic topic, @Param("name") String name,
                                                                 Pageable pageable);
 
-    Page<Test> findByCategoryAndTopicAndPrivateTestFalse(@Param("category") Category category,
+    Page<Test> findByCategoryAndTopicAndPrivateTestFalseAndActiveTrue(@Param("category") Category category,
                                                          @Param("topic") Topic topic, Pageable pageable);
 
-    Page<Test> findByCategoryAndNameAndPrivateTestFalse(@Param("category") Category category,
+    Page<Test> findByCategoryAndNameAndPrivateTestFalseAndActiveTrue(@Param("category") Category category,
                                                         @Param("name") String name, Pageable pageable);
 
-    Page<Test> findByTopicAndNameAndPrivateTestFalse(@Param("topic") Topic topic, @Param("name") String name,
+    Page<Test> findByTopicAndNameAndPrivateTestFalseAndActiveTrue(@Param("topic") Topic topic, @Param("name") String name,
                                                      Pageable pageable);
 
-    Page<Test> findByCategoryAndPrivateTestFalse(@Param("category") Category category, Pageable pageable);
+    Page<Test> findByCategoryAndPrivateTestFalseAndActiveTrue(@Param("category") Category category, Pageable pageable);
 
-    Page<Test> findByTopicAndPrivateTestFalse(@Param("topic") Topic topic, Pageable pageable);
+    Page<Test> findByTopicAndPrivateTestFalseAndActiveTrue(@Param("topic") Topic topic, Pageable pageable);
 
-    Page<Test> findByNameAndPrivateTestFalse(@Param("name") String name, Pageable pageable);
+    Page<Test> findByNameAndPrivateTestFalseAndActiveTrue(@Param("name") String name, Pageable pageable);
 
-    Page<Test> findByPrivateTestFalse(Pageable pageable);
+    Page<Test> findByPrivateTestFalseAndActiveTrue(Pageable pageable);
 
-    Page<Test> findByAuthorAndCategoryAndTopicAndName(@Param("author") User user, @Param("category") Category category,
+    Page<Test> findByAuthorAndCategoryAndTopicAndNameAndActiveTrue(@Param("author") User user, @Param("category") Category category,
                                                       @Param("topic") Topic topic, @Param("name") String name,
                                                       Pageable pageable);
 
-    Page<Test> findByAuthorAndCategoryAndTopic(@Param("author") User user, @Param("category") Category category,
+    Page<Test> findByAuthorAndCategoryAndTopicAndActiveTrue(@Param("author") User user, @Param("category") Category category,
                                                @Param("topic") Topic topic, Pageable pageable);
 
-    Page<Test> findByAuthorAndCategoryAndName(@Param("author") User user, @Param("category") Category category,
+    Page<Test> findByAuthorAndCategoryAndNameAndActiveTrue(@Param("author") User user, @Param("category") Category category,
                                               @Param("name") String name, Pageable pageable);
 
-    Page<Test> findByAuthorAndTopicAndName(@Param("author") User user, @Param("topic") Topic topic,
+    Page<Test> findByAuthorAndTopicAndNameAndActiveTrue(@Param("author") User user, @Param("topic") Topic topic,
                                            @Param("name") String name, Pageable pageable);
 
-    Page<Test> findByAuthorAndCategory(@Param("author") User user, @Param("category") Category category,
+    Page<Test> findByAuthorAndCategoryAndActiveTrue(@Param("author") User user, @Param("category") Category category,
                                        Pageable pageable);
 
-    Page<Test> findByAuthorAndTopic(@Param("author") User user, @Param("topic") Topic topic, Pageable pageable);
+    Page<Test> findByAuthorAndTopicAndActiveTrue(@Param("author") User user, @Param("topic") Topic topic, Pageable pageable);
 
-    Page<Test> findByAuthorAndName(@Param("author") User user, @Param("name") String name, Pageable pageable);
+    Page<Test> findByAuthorAndNameAndActiveTrue(@Param("author") User user, @Param("name") String name, Pageable pageable);
 
-    Page<Test> findByAuthor(@Param("author") User user, Pageable pageable);
+    Page<Test> findByAuthorAndActiveTrue(@Param("author") User user, Pageable pageable);
 
-    Page<Test> findByCategoryAndTopicAndNameAndIdIn(@Param("category") Category category, @Param("topic") Topic topic,
+    Page<Test> findByCategoryAndTopicAndNameAndIdInAndActiveTrue(@Param("category") Category category, @Param("topic") Topic topic,
                                                     @Param("name") String name, @Param("ids") Collection<Long> ids,
                                                     Pageable pageable);
 
-    Page<Test> findByCategoryAndTopicAndIdIn(@Param("category") Category category, @Param("topic") Topic topic,
+    Page<Test> findByCategoryAndTopicAndIdInAndActiveTrue(@Param("category") Category category, @Param("topic") Topic topic,
                                              @Param("ids") Collection<Long> ids, Pageable pageable);
 
-    Page<Test> findByCategoryAndNameAndIdIn(@Param("category") Category category, @Param("name") String name,
+    Page<Test> findByCategoryAndNameAndIdInAndActiveTrue(@Param("category") Category category, @Param("name") String name,
                                             @Param("ids") Collection<Long> ids, Pageable pageable);
 
-    Page<Test> findByTopicAndNameAndIdIn(@Param("topic") Topic topic, @Param("name") String name,
+    Page<Test> findByTopicAndNameAndIdInAndActiveTrue(@Param("topic") Topic topic, @Param("name") String name,
                                          @Param("ids") Collection<Long> ids, Pageable pageable);
 
-    Page<Test> findByCategoryAndIdIn(@Param("category") Category category, @Param("ids") Collection<Long> ids,
+    Page<Test> findByCategoryAndIdInAndActiveTrue(@Param("category") Category category, @Param("ids") Collection<Long> ids,
                                      Pageable pageable);
+
+    Page<Test> findByTopicAndIdInAndActiveTrue(@Param("topic") Topic topic, @Param("ids") Collection<Long> ids, Pageable pageable);
+
+    Page<Test> findByNameAndIdInAndActiveTrue(@Param("name") String name, @Param("ids") Collection<Long> ids, Pageable pageable);
+
+    Page<Test> findByIdInAndActiveTrue(@Param("ids") Collection<Long> ids, Pageable pageable);
+
+    Page<Test> findByCategoryAndTopicAndNameAndIdIn(@Param("category") Category category, @Param("topic") Topic topic,
+                                                                 @Param("name") String name, @Param("ids") Collection<Long> ids,
+                                                                 Pageable pageable);
+
+    Page<Test> findByCategoryAndTopicAndIdIn(@Param("category") Category category, @Param("topic") Topic topic,
+                                                          @Param("ids") Collection<Long> ids, Pageable pageable);
+
+    Page<Test> findByCategoryAndNameAndIdIn(@Param("category") Category category, @Param("name") String name,
+                                                         @Param("ids") Collection<Long> ids, Pageable pageable);
+
+    Page<Test> findByTopicAndNameAndIdIn(@Param("topic") Topic topic, @Param("name") String name,
+                                                      @Param("ids") Collection<Long> ids, Pageable pageable);
+
+    Page<Test> findByCategoryAndIdIn(@Param("category") Category category, @Param("ids") Collection<Long> ids,
+                                                  Pageable pageable);
 
     Page<Test> findByTopicAndIdIn(@Param("topic") Topic topic, @Param("ids") Collection<Long> ids, Pageable pageable);
 

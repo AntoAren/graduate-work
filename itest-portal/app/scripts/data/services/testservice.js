@@ -88,7 +88,7 @@ angular.module('itest.portal.data.services')
         },
 
         editTest: function (testId, testParams) {
-            return restService.one(testId).put(testParams);
+            return restService.one(testId).customPUT(testParams);
         },
 
         getPreviewInfo: function (testId, params) {
@@ -100,11 +100,11 @@ angular.module('itest.portal.data.services')
         },
 
         getTestForPassing: function (testId) {
-            return restService.one(testId).one('passing').get();
+            return restService.one('passing').one(testId.toString()).get();
         },
 
-        completeTest: function (answers) {
-            return restService.one('complete').customPOST(answers);
+        completeTest: function (testId, answers) {
+            return restService.one('complete').one(testId.toString()).customPOST(answers);
         }
     };
 });

@@ -56,12 +56,12 @@ public class TestController {
         return new ListView<>(allTestsViewList, allTestsViewList.size(), sorting);
     }
 
-    @RequestMapping(value = "/{testId}/passing", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/passing/{testIdString}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public TestForPassingView getTestForPassing(@PathVariable String testId) {
-        Long passingTestId = StringUtil.getIdFromString(testId);
+    public TestForPassingView getTestForPassing(@PathVariable String testIdString) {
+        Long testId = StringUtil.getIdFromString(testIdString);
 
-        return testService.getTestForPassing(passingTestId);
+        return testService.getTestForPassing(testId);
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -128,37 +128,67 @@ public class TestController {
         return new ListView<>(myResultsViewList, myResultsViewList.size(), sorting);
     }
 
-    @RequestMapping(value = "/preview/{testId}", params = "view=allTests", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/preview/{testIdString}", params = "view=allTests", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public AllTestsPreviewView getPreviewInfoForAllTestsPage(@PathVariable String testId) {
-        Long previewTestId = StringUtil.getIdFromString(testId);
+    public AllTestsPreviewView getPreviewInfoForAllTestsPage(@PathVariable String testIdString) {
+        Long testId = StringUtil.getIdFromString(testIdString);
 
-        return testService.getPreviewInfoForAllTestsPage(previewTestId);
+        return testService.getPreviewInfoForAllTestsPage(testId);
     }
 
-    @RequestMapping(value = "/preview/{testId}", params = "view=assignedToMe", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/preview/{testIdString}", params = "view=assignedToMe", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public AssignedToMePreviewView getPreviewInfoForAssignedToMePage(@PathVariable String testId) {
-        Long previewTestId = StringUtil.getIdFromString(testId);
+    public AssignedToMePreviewView getPreviewInfoForAssignedToMePage(@PathVariable String testIdString) {
+        Long testId = StringUtil.getIdFromString(testIdString);
 
-        return testService.getPreviewInfoForAssignedToMePage(previewTestId);
+        return testService.getPreviewInfoForAssignedToMePage(testId);
     }
 
-    @RequestMapping(value = "/preview/{testId}", params = "view=myResults", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/preview/{testIdString}", params = "view=myResults", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public MyResultsPreviewView getPreviewInfoForMyResultsPage(@PathVariable String testId) {
-        Long previewTestId = StringUtil.getIdFromString(testId);
+    public MyResultsPreviewView getPreviewInfoForMyResultsPage(@PathVariable String testIdString) {
+        Long testId = StringUtil.getIdFromString(testIdString);
 
-        return testService.getPreviewInfoForMyResultsPage(previewTestId);
+        return testService.getPreviewInfoForMyResultsPage(testId);
     }
 
-    @RequestMapping(value = "/add/{testId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/add/{testIdString}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<String> assignTestToMe(@PathVariable String testId) {
-        Long testIdToAssign = StringUtil.getIdFromString(testId);
+    public ResponseEntity<String> assignTestToMe(@PathVariable String testIdString) {
+        Long testId = StringUtil.getIdFromString(testIdString);
 
-        testService.assignTestToMe(testIdToAssign);
+        testService.assignTestToMe(testId);
 
         return jsonResponseEntityFactory.createMessageResponse(Messages.INFO_TEST_HAS_BEEN_ASSIGNED, HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/complete/{testIdString}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<String> completeTest(@PathVariable String testIdString, @RequestBody String body) {
+        Long testId = StringUtil.getIdFromString(testIdString);
+        Map<String, Object> details = ObjectMapper.read(body);
+
+        testService.completeTest(testId, details);
+
+        return jsonResponseEntityFactory.createMessageResponse(Messages.INFO_TEST_HAS_BEEN_COMPLETED, HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/{testIdString}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public EditTestView getTestForEditing(@PathVariable String testIdString) {
+        Long testId = StringUtil.getIdFromString(testIdString);
+
+        return testService.getTestForEditing(testId);
+    }
+
+    @RequestMapping(value = "/{testIdString}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<String> editTest(@PathVariable String testIdString, @RequestBody String body) {
+        Long testId = StringUtil.getIdFromString(testIdString);
+        Map<String, Object> details = ObjectMapper.read(body);
+
+        Test test = testService.editTest(testId, details);
+
+        return jsonResponseEntityFactory.createMessageResponse(Messages.INFO_TEST_HAS_BEEN_EDITED, HttpStatus.CREATED);
     }
 }

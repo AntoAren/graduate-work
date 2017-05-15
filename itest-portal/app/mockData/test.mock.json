@@ -3,7 +3,7 @@
     "questionsNumber": 3,
     "categoryId": 2,
     "topicId": 3,
-    "private": true,
+    "privateTest": true,
     "showCorrectAnswers": false,
     "questions": [
         {

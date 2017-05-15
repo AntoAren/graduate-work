@@ -12,7 +12,7 @@ public class MyResultsView {
     private String name;
     private String category;
     private String topic;
-    private Date finishDate;
+    private Date completionDate;
 
     public MyResultsView(Test test) {
         this.id = test.getId();
@@ -54,11 +54,11 @@ public class MyResultsView {
     }
 
     @JsonSerialize(using = JsonDateSerializer.class)
-    public Date getFinishDate() {
-        return finishDate;
+    public Date getCompletionDate() {
+        return completionDate;
     }
 
-    public void setFinishDate(Date finishDate) {
-        this.finishDate = finishDate;
+    public void setCompletionDate(Date completionDate) {
+        this.completionDate = completionDate;
     }
 }

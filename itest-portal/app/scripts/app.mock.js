@@ -8,12 +8,8 @@ angular.module('app.mock',[])
 function mockInterceptor() {
     return {
         'request': function (config) {
-            if (config.url.indexOf('/tests/preview/1') >= 0 && config.params && (config.params.view === 'myResults')) {
-                config.url = 'mockData/tests.myresults.preview.mock.json';
-            } else if (config.url.indexOf('/tests/1') >= 0) {
+            if (config.url.indexOf('/tests/1') >= 0) {
                 config.url = 'mockData/test.mock.json';
-            } else if ((config.url.indexOf('/tests') >= 0) && config.params && (config.params.view === 'myResults')) {
-                config.url = 'mockData/tests.all.mock.json';
             }
 
             return config;

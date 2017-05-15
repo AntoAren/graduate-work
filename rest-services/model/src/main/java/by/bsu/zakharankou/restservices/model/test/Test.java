@@ -47,6 +47,8 @@ public class Test {
     @JoinColumn(name = "author")
     private User author;
 
+    private Boolean active;
+
     public Test() {
     }
 
@@ -144,5 +146,13 @@ public class Test {
 
     public void setDeadline(Date deadline) {
         this.deadline = deadline;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 }

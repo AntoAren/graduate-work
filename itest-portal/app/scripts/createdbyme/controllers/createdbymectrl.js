@@ -173,6 +173,10 @@ angular.module('itest.portal.createdbyme.controllers')
             loadTests();
         };
 
+        $scope.showItem = function (plate) {
+            return $state.href('edittest', {testId: plate.id});
+        };
+
         previousStateService.pushPreviousState($state.$current.name);
 
         loadTests();

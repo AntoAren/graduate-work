@@ -2,14 +2,14 @@
 
 angular.module('itest.portal.createnewtest.controllers')
 
-    .controller('CreateNewTestCtrl', function($scope, categoryService, topicService, testService) {
+    .controller('CreateNewTestCtrl', function($scope, categoryService, topicService, testService, $state) {
 
         var loadCategories = function() {
             categoryService.getCategoriesForPublicTests().then(function(response) {
                 var categories = response.list.map(function(category) {
                     return {
                         name: category.name,
-                        value: category.id.toString()
+                        value: category.id
                     };
                 });
 
@@ -22,7 +22,7 @@ angular.module('itest.portal.createnewtest.controllers')
                 var topics = response.list.map(function(topic) {
                     return {
                         name: topic.name,
-                        value: topic.id.toString()
+                        value: topic.id
                     };
                 });
 
@@ -37,45 +37,45 @@ angular.module('itest.portal.createnewtest.controllers')
                     answers: []
                 };
                 $.each(currentQuestion.answers, function (secondIndex, answer) {
-                    if (answer.answerText.trim() !== '') {
+                    if (answer.text.trim() !== '') {
                         question.answers.push({
-                            answerNumber: answer.answerNumber,
-                            answerText: answer.answerText.trim(),
+                            id: answer.id,
+                            text: answer.text.trim(),
                             correct: answer.correct
                         });
                     }
                 });
-                if (currentQuestion.questionText.trim() !== '' || question.answers.length !== 0) {
+                if (currentQuestion.text.trim() !== '' || question.answers.length !== 0) {
                     if (question.answers.length === 0) {
                         question.answers.push({
-                            answerNumber: 1,
-                            answerText: '',
+                            id: 1,
+                            text: '',
                             correct: true
                         });
                         question.answers.push({
-                            answerNumber: 2,
-                            answerText: '',
+                            id: 2,
+                            text: '',
                             correct: false
                         });
                     }
-                    question.questionNumber = currentQuestion.questionNumber;
-                    question.questionText = currentQuestion.questionText.trim();
+                    question.id = currentQuestion.id;
+                    question.text = currentQuestion.text.trim();
                     questions.push(question);
                 }
             });
             if (questions.length === 0) {
                 questions.push({
-                    questionNumber: 1,
-                    questionText: '',
+                    id: 1,
+                    text: '',
                     answers: [
                         {
-                            answerNumber: 1,
-                            answerText: '',
+                            id: 1,
+                            text: '',
                             correct: true
                         },
                         {
-                            answerNumber: 2,
-                            answerText: '',
+                            id: 2,
+                            text: '',
                             correct: false
                         }
                     ]
@@ -88,12 +88,12 @@ angular.module('itest.portal.createnewtest.controllers')
             var numberCorrectAnswers;
             $scope.validationFailed = false;
             $.each($scope.test.questions, function (firstIndex, question) {
-                if (question.questionText.trim() === '') {
+                if (question.text.trim() === '') {
                     $scope.validationFailed = true;
                 }
                 numberCorrectAnswers = 0;
                 $.each(question.answers, function (secondIndex, answer) {
-                    if (answer.answerText.trim() === '') {
+                    if (answer.text.trim() === '') {
                         $scope.validationFailed = true;
                     }
                     if (answer.correct) {
@@ -133,17 +133,17 @@ angular.module('itest.portal.createnewtest.controllers')
         $scope.test = {
             questions: [
                 {
-                    questionNumber: 1,
-                    questionText: '',
+                    id: 1,
+                    text: '',
                     answers: [
                         {
-                            answerNumber: 1,
-                            answerText: '',
+                            id: 1,
+                            text: '',
                             correct: true
                         },
                         {
-                            answerNumber: 2,
-                            answerText: '',
+                            id: 2,
+                            text: '',
                             correct: false
                         }
                     ]
@@ -152,16 +152,16 @@ angular.module('itest.portal.createnewtest.controllers')
             questionsNumber: 1,
             categoryId: 0,
             topicId: 0,
-            private: false,
+            privateTest: false,
             showCorrectAnswers: false
         };
 
-        $scope.addAnswer = function(questionNumber) {
+        $scope.addAnswer = function(id) {
             $.each($scope.test.questions, function(index, question) {
-                if (question.questionNumber === questionNumber) {
+                if (question.id === id) {
                     question.answers.push({
-                        answerNumber: question.answers.length + 1,
-                        answerText: '',
+                        id: question.answers.length + 1,
+                        text: '',
                         correct: false
                     });
                 }
@@ -170,17 +170,17 @@ angular.module('itest.portal.createnewtest.controllers')
 
         $scope.addQuestion = function() {
             $scope.test.questions.push({
-                questionNumber: $scope.test.questions.length + 1,
-                questionText: '',
+                id: $scope.test.questions.length + 1,
+                text: '',
                 answers: [
                     {
-                        answerNumber: 1,
-                        answerText: '',
+                        id: 1,
+                        text: '',
                         correct: true
                     },
                     {
-                        answerNumber: 2,
-                        answerText: '',
+                        id: 2,
+                        text: '',
                         correct: false
                     }
                 ]
@@ -192,16 +192,16 @@ angular.module('itest.portal.createnewtest.controllers')
             });
         };
 
-        $scope.removeAnswer = function(questionNumber, answerNumber) {
+        $scope.removeAnswer = function(questionId, answerId) {
             var answers = [];
             var index = 1;
             $.each($scope.test.questions, function(firstIndex, question){
-                if (question.questionNumber === questionNumber) {
+                if (question.id === questionId) {
                     $.each(question.answers, function(secondIndex, answer) {
-                        if (answer.answerNumber !== answerNumber) {
+                        if (answer.id !== answerId) {
                             answers.push({
-                                answerNumber: index,
-                                answerText: answer.answerText,
+                                id: index,
+                                text: answer.text,
                                 correct: answer.correct
                             });
                             index++;
@@ -212,14 +212,14 @@ angular.module('itest.portal.createnewtest.controllers')
             });
         };
 
-        $scope.removeQuestion = function(questionNumber) {
+        $scope.removeQuestion = function(id) {
             var questions = [];
             var index = 1;
             $.each($scope.test.questions, function(firstIndex, question){
-                if (question.questionNumber !== questionNumber) {
+                if (question.id !== id) {
                     questions.push({
-                        questionNumber: index,
-                        questionText: question.questionText,
+                        id: index,
+                        text: question.text,
                         answers: question.answers
                     });
                     index++;
@@ -234,10 +234,10 @@ angular.module('itest.portal.createnewtest.controllers')
             $scope.questionsCountOptions.items.pop();
         };
 
-        $scope.calculateCorrectAnswers = function(questionNumber) {
+        $scope.calculateCorrectAnswers = function(id) {
             var count = 0;
             $.each($scope.test.questions, function(firstIndex, question) {
-                if (question.questionNumber === questionNumber) {
+                if (question.id === id) {
                     $.each(question.answers, function (secondIndex, answer) {
                         if (answer.correct) {
                             count++;
@@ -253,7 +253,7 @@ angular.module('itest.portal.createnewtest.controllers')
             validateTest();
             if (!$scope.validationFailed) {
                 testService.createTest($scope.test).then(function () {
-
+                    $state.go('createdbyme');
                 });
             }
         };

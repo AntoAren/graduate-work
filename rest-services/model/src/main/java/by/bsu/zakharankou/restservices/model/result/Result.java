@@ -23,7 +23,7 @@ public class Result {
 
     private String status;
 
-    private Date finishDate;
+    private Date completionDate = new Date();
 
     private Long score;
 
@@ -59,12 +59,12 @@ public class Result {
         this.status = status;
     }
 
-    public Date getFinishDate() {
-        return finishDate;
+    public Date getCompletionDate() {
+        return completionDate;
     }
 
-    public void setFinishDate(Date finishDate) {
-        this.finishDate = finishDate;
+    public void setCompletionDate(Date completionDate) {
+        this.completionDate = completionDate;
     }
 
     public Long getScore() {
