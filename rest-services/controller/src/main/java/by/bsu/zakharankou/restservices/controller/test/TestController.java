@@ -2,6 +2,7 @@ package by.bsu.zakharankou.restservices.controller.test;
 
 import by.bsu.zakharankou.restservices.controller.util.JsonResponseEntityFactory;
 import by.bsu.zakharankou.restservices.controller.util.ObjectMapper;
+import by.bsu.zakharankou.restservices.model.result.views.ResultView;
 import by.bsu.zakharankou.restservices.model.test.views.*;
 import by.bsu.zakharankou.restservices.controller.util.Paging;
 import by.bsu.zakharankou.restservices.controller.util.SortBuilder;
@@ -152,6 +153,24 @@ public class TestController {
         return testService.getPreviewInfoForMyResultsPage(testId);
     }
 
+    @RequestMapping(value = "/preview/{testIdString}", params = "view=createdByMe", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public CreatedByMePreviewView getPreviewInfoForCreatedByMePage(@PathVariable String testIdString) {
+        Long testId = StringUtil.getIdFromString(testIdString);
+
+        return testService.getPreviewInfoForCreatedByMePage(testId);
+    }
+
+    @RequestMapping(value = "/{testIdString}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<String> deleteTest(@PathVariable String testIdString) {
+        Long testId = StringUtil.getIdFromString(testIdString);
+
+        testService.deleteTest(testId);
+
+        return jsonResponseEntityFactory.createMessageResponse(Messages.INFO_TEST_HAS_BEEN_DELETED, HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/add/{testIdString}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<String> assignTestToMe(@PathVariable String testIdString) {
@@ -171,6 +190,15 @@ public class TestController {
         testService.completeTest(testId, details);
 
         return jsonResponseEntityFactory.createMessageResponse(Messages.INFO_TEST_HAS_BEEN_COMPLETED, HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/results/{testIdString}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ListView<ResultView> getTestResults(@PathVariable String testIdString) {
+        Long testId = StringUtil.getIdFromString(testIdString);
+
+        List<ResultView> resultViews = testService.getTestResults(testId);
+        return new ListView<>(resultViews, resultViews.size());
     }
 
     @RequestMapping(value = "/{testIdString}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

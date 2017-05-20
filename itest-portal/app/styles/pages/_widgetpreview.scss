@@ -305,6 +305,31 @@
     }
 }
 
+.results-container {
+    left: 210px;
+}
+
+.result-container {
+
+}
+.results-username {
+    width: 200px;
+    height: 30px;
+    display: inline-block;
+}
+
+.results-score {
+    width: 90px;
+    height: 30px;
+    display: inline-block;
+}
+
+.results-date {
+    width: 200px;
+    height: 30px;
+    display: inline-block;
+}
+
 @media all and (max-width: 1440px) {
 
     .wr {

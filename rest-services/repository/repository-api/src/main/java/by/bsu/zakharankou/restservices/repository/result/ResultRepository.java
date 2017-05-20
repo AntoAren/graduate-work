@@ -14,4 +14,6 @@ public interface ResultRepository extends JpaRepository<Result, Long> {
     List<Result> findByUser(User user);
 
     List<Result> findByUserAndTest(User user, Test test);
+
+    List<Result> findByTest(Test test);
 }

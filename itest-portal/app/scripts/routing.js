@@ -127,6 +127,13 @@ angular.module('itest.portal.routing', ['ui.router'])
                 url: '/passing-test/:testId',
                 templateUrl: 'views/testpassing/testpassing.html',
                 controller: 'TestPassingCtrl'
+            },
+            {
+                title: 'Просмотр теста',
+                name: 'createdbymepreview',
+                url: '/created-by-me/preview/:testId',
+                templateUrl: 'views/createdbyme/preview/createdbymepreview.html',
+                controller: 'CreatedByMePreviewCtrl'
             }
         ];
 

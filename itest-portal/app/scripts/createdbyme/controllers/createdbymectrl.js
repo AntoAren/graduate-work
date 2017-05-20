@@ -174,7 +174,7 @@ angular.module('itest.portal.createdbyme.controllers')
         };
 
         $scope.showItem = function (plate) {
-            return $state.href('edittest', {testId: plate.id});
+            return $state.href('createdbymepreview', {testId: plate.id});
         };
 
         previousStateService.pushPreviousState($state.$current.name);

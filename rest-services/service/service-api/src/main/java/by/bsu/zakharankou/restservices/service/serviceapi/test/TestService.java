@@ -1,5 +1,6 @@
 package by.bsu.zakharankou.restservices.service.serviceapi.test;
 
+import by.bsu.zakharankou.restservices.model.result.views.ResultView;
 import by.bsu.zakharankou.restservices.model.test.Test;
 import by.bsu.zakharankou.restservices.model.test.views.*;
 
@@ -28,6 +29,8 @@ public interface TestService {
 
     MyResultsPreviewView getPreviewInfoForMyResultsPage(Long testId);
 
+    CreatedByMePreviewView getPreviewInfoForCreatedByMePage(Long testId);
+
     void assignTestToMe(Long testId);
 
     void completeTest(Long testId, Map<String, Object> details);
@@ -35,4 +38,8 @@ public interface TestService {
     EditTestView getTestForEditing(Long testId);
 
     Test editTest(Long testId, Map<String, Object> details);
+
+    List<ResultView> getTestResults(Long testId);
+
+    void deleteTest(Long testId);
 }

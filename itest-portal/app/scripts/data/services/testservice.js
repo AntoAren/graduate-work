@@ -105,6 +105,14 @@ angular.module('itest.portal.data.services')
 
         completeTest: function (testId, answers) {
             return restService.one('complete').one(testId.toString()).customPOST(answers);
+        },
+
+        getTestResults: function (testId) {
+            return restService.one('results').one(testId.toString()).get();
+        },
+
+        deleteTest: function (testId) {
+            return restService.one(testId.toString()).remove();
         }
     };
 });

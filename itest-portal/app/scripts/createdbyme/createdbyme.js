@@ -4,7 +4,10 @@ angular.module('itest.portal.createdbyme.controllers', []);
 
 angular.module('itest.portal.createdbyme.directives', []);
 
+angular.module('itest.portal.createdbyme.preview', []);
+
 angular.module('itest.portal.createdbyme', [
     'itest.portal.createdbyme.controllers',
-    'itest.portal.createdbyme.directives'
+    'itest.portal.createdbyme.directives',
+    'itest.portal.createdbyme.preview'
 ]);

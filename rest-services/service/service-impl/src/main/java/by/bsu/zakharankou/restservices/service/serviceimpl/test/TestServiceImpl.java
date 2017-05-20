@@ -6,6 +6,7 @@ import by.bsu.zakharankou.restservices.model.question.Question;
 import by.bsu.zakharankou.restservices.model.record.Record;
 import by.bsu.zakharankou.restservices.model.result.Result;
 import by.bsu.zakharankou.restservices.model.result.ResultStatus;
+import by.bsu.zakharankou.restservices.model.result.views.ResultView;
 import by.bsu.zakharankou.restservices.model.test.Test;
 import by.bsu.zakharankou.restservices.model.test.views.*;
 import by.bsu.zakharankou.restservices.model.testassignment.TestAssignment;
@@ -290,8 +291,7 @@ public class TestServiceImpl implements TestService {
             allTestsPreviewView.setAdded(true);
         }
 
-        // TODO: calculate average score correctly
-        allTestsPreviewView.setAverageScore(50L);
+        allTestsPreviewView.setAverageScore(calculateAverageScore(testId));
 
         return allTestsPreviewView;
     }
@@ -302,8 +302,7 @@ public class TestServiceImpl implements TestService {
         Test test = testRepository.findOne(testId);
         AssignedToMePreviewView assignedToMePreviewView = new AssignedToMePreviewView(test);
 
-        // TODO: calculate average score correctly
-        assignedToMePreviewView.setAverageScore(50L);
+        assignedToMePreviewView.setAverageScore(calculateAverageScore(testId));
 
         return assignedToMePreviewView;
     }
@@ -319,10 +318,19 @@ public class TestServiceImpl implements TestService {
         myResultsPreviewView.setCompletionDate(result.getCompletionDate());
         myResultsPreviewView.setScore(result.getScore());
 
-        // TODO: calculate average score correctly
-        myResultsPreviewView.setAverageScore(50L);
+        myResultsPreviewView.setAverageScore(calculateAverageScore(testId));
 
         return myResultsPreviewView;
+    }
+
+    @Override
+    public CreatedByMePreviewView getPreviewInfoForCreatedByMePage(Long testId) {
+        Test test = testRepository.findOne(testId);
+        CreatedByMePreviewView createdByMePreviewView = new CreatedByMePreviewView(test);
+
+        createdByMePreviewView.setAverageScore(calculateAverageScore(testId));
+
+        return createdByMePreviewView;
     }
 
     @Override
@@ -391,6 +399,22 @@ public class TestServiceImpl implements TestService {
         test.setActive(false);
         testRepository.save(test);
         return createTest(details);
+    }
+
+    @Override
+    public List<ResultView> getTestResults(Long testId) {
+        Test test = testRepository.findOne(testId);
+
+        List<Result> results = resultRepository.findByTest(test);
+
+        return ViewBuilder.build(results, ResultView.class, Result.class);
+    }
+
+    @Override
+    public void deleteTest(Long testId) {
+        Test test = testRepository.findOne(testId);
+        test.setActive(false);
+        testRepository.save(test);
     }
 
     private Long calculateCorrectAnswers(User user, Test test) {
@@ -486,5 +510,16 @@ public class TestServiceImpl implements TestService {
         }
 
         return testIds;
+    }
+
+    private Long calculateAverageScore(Long testId) {
+        Test test = testRepository.findOne(testId);
+        List<Result> results = resultRepository.findByTest(test);
+        Long averageScore = 0L;
+        for (Result result : results) {
+            averageScore += result.getScore();
+        }
+
+        return results.size() == 0 ? 0 : averageScore/results.size();
     }
 }
